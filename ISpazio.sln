@@ -1,0 +1,23 @@
+
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ISpazio", "ISpazio\ISpazio.csproj", "{FA7C0EEB-E964-4DBF-9347-C34D5E628E01}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhone = Release|iPhone
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{FA7C0EEB-E964-4DBF-9347-C34D5E628E01}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{FA7C0EEB-E964-4DBF-9347-C34D5E628E01}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{FA7C0EEB-E964-4DBF-9347-C34D5E628E01}.Release|iPhone.ActiveCfg = Release|iPhone
+		{FA7C0EEB-E964-4DBF-9347-C34D5E628E01}.Release|iPhone.Build.0 = Release|iPhone
+		{FA7C0EEB-E964-4DBF-9347-C34D5E628E01}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{FA7C0EEB-E964-4DBF-9347-C34D5E628E01}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+		{FA7C0EEB-E964-4DBF-9347-C34D5E628E01}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{FA7C0EEB-E964-4DBF-9347-C34D5E628E01}.Debug|iPhone.Build.0 = Debug|iPhone
+	EndGlobalSection
+EndGlobal

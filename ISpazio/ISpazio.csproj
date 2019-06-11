@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProjectGuid>{FA7C0EEB-E964-4DBF-9347-C34D5E628E01}</ProjectGuid>
+    <ProjectTypeGuids>{FEACFBD2-3405-455C-9665-78FE426C6842};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>NewTestArKit</RootNamespace>
+    <AssemblyName>NewTestArKit</AssemblyName>
+    <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchFastDev>true</MtouchFastDev>
+    <IOSDebuggerPort>37736</IOSDebuggerPort>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <PlatformTarget>x86</PlatformTarget>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchUseLlvm>true</MtouchUseLlvm>
+    <MtouchFloat32>true</MtouchFloat32>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchArch>ARM64</MtouchArch>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodesignProvision>iOS Team Provisioning Profile: com.lorenzoCilento.iSpazio</CodesignProvision>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchLink>None</MtouchLink>
+    <MtouchArch>x86_64</MtouchArch>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <PlatformTarget>x86</PlatformTarget>
+    <ConsolePause>true</ConsolePause>
+    <ExternalConsole>false</ExternalConsole>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG;ENABLE_TEST_CLOUD;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodesignKey>iPhone Developer</CodesignKey>
+    <DeviceSpecificBuild>true</DeviceSpecificBuild>
+    <MtouchDebug>true</MtouchDebug>
+    <MtouchNoSymbolStrip>true</MtouchNoSymbolStrip>
+    <MtouchFastDev>true</MtouchFastDev>
+    <MtouchFloat32>true</MtouchFloat32>
+    <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
+    <IOSDebuggerPort>51107</IOSDebuggerPort>
+    <MtouchLink>SdkOnly</MtouchLink>
+    <MtouchArch>ARM64</MtouchArch>
+    <MtouchHttpClientHandler>NSUrlSessionHandler</MtouchHttpClientHandler>
+    <PlatformTarget>x86</PlatformTarget>
+    <CodesignProvision>iOS Team Provisioning Profile: com.lorenzoCilento.iSpazio</CodesignProvision>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="Xamarin.iOS" />
+    <Reference Include="System.Data" />
+    <Reference Include="SQLitePCLRaw.core">
+      <HintPath>..\packages\SQLitePCLRaw.core.1.1.14\lib\Xamarin.iOS10\SQLitePCLRaw.core.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.provider.sqlite3">
+      <HintPath>..\packages\SQLitePCLRaw.provider.sqlite3.ios_unified.1.1.14\lib\Xamarin.iOS10\SQLitePCLRaw.provider.sqlite3.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_green">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.14\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_green.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLitePCLRaw.batteries_v2">
+      <HintPath>..\packages\SQLitePCLRaw.bundle_green.1.1.14\lib\Xamarin.iOS10\SQLitePCLRaw.batteries_v2.dll</HintPath>
+    </Reference>
+    <Reference Include="SQLite-net">
+      <HintPath>..\packages\sqlite-net-pcl.1.5.231\lib\netstandard1.1\SQLite-net.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\reset.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\reset.imageset\icons8-reboot-filled-30.png" />
+    <ImageAsset Include="Assets.xcassets\reset.imageset\icons8-reboot-filled-60.png" />
+    <ImageAsset Include="Assets.xcassets\reset.imageset\icons8-reboot-filled-90.png" />
+    <ImageAsset Include="Assets.xcassets\option.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\option.imageset\icons8-servizi-filled-30.png" />
+    <ImageAsset Include="Assets.xcassets\option.imageset\icons8-servizi-filled-60.png" />
+    <ImageAsset Include="Assets.xcassets\option.imageset\icons8-servizi-filled-90.png" />
+    <ImageAsset Include="Assets.xcassets\option.imageset\icons8-servizi-filled-30-1.png" />
+    <ImageAsset Include="Assets.xcassets\option.imageset\icons8-servizi-filled-60-1.png" />
+    <ImageAsset Include="Assets.xcassets\option.imageset\icons8-servizi-filled-90-1.png" />
+    <ImageAsset Include="Assets.xcassets\delete.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\delete.imageset\icons8-cancella-simbolo-30.png" />
+    <ImageAsset Include="Assets.xcassets\delete.imageset\icons8-cancella-simbolo-60.png" />
+    <ImageAsset Include="Assets.xcassets\delete.imageset\icons8-cancella-simbolo-90.png" />
+    <ImageAsset Include="Assets.xcassets\add.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\add.imageset\icons8-aggiungi-file-30.png" />
+    <ImageAsset Include="Assets.xcassets\add.imageset\icons8-aggiungi-file-60.png" />
+    <ImageAsset Include="Assets.xcassets\add.imageset\icons8-aggiungi-file-90.png" />
+    <ImageAsset Include="Assets.xcassets\camera.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\camera.imageset\icons8-unsplash-filled-30.png" />
+    <ImageAsset Include="Assets.xcassets\camera.imageset\icons8-unsplash-filled-60.png" />
+    <ImageAsset Include="Assets.xcassets\camera.imageset\icons8-unsplash-filled-90.png" />
+    <ImageAsset Include="Assets.xcassets\object.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\box.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\box.imageset\icons8-scatola-30.png" />
+    <ImageAsset Include="Assets.xcassets\box.imageset\icons8-scatola-60.png" />
+    <ImageAsset Include="Assets.xcassets\box.imageset\icons8-scatola-90.png" />
+    <ImageAsset Include="Assets.xcassets\object.imageset\icons8-dati-sanitari-30.png" />
+    <ImageAsset Include="Assets.xcassets\object.imageset\icons8-dati-sanitari-60.png" />
+    <ImageAsset Include="Assets.xcassets\object.imageset\icons8-dati-sanitari-90.png" />
+    <ImageAsset Include="Assets.xcassets\back.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\back.imageset\icons8-indietro-30.png" />
+    <ImageAsset Include="Assets.xcassets\back.imageset\icons8-indietro-60.png" />
+    <ImageAsset Include="Assets.xcassets\back.imageset\icons8-indietro-90.png" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\LaunchImage.launchimage\HomeAppBianco_Tavola disegno 1.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\IconaApp120x120.png" />
+    <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\IconaApp180x180.png" />
+    <ImageAsset Include="Assets.xcassets\launch.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\launch.imageset\HomeAppBianco_Tavola disegno 1.png" />
+    <ImageAsset Include="Assets.xcassets\ok.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\ok.imageset\icons8-ok-filled-30.png" />
+    <ImageAsset Include="Assets.xcassets\ok.imageset\icons8-ok-filled-60.png" />
+    <ImageAsset Include="Assets.xcassets\ok.imageset\icons8-ok-filled-90.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+    <Folder Include="Controller\" />
+    <Folder Include="Model\" />
+    <Folder Include="Assets.xcassets\camera.imageset\" />
+    <Folder Include="Delegate\" />
+    <Folder Include="Connection\" />
+    <Folder Include="Assets.xcassets\option.imageset\" />
+    <Folder Include="Assets.xcassets\reset.imageset\" />
+    <Folder Include="Assets.xcassets\reset.imageset\" />
+    <Folder Include="Assets.xcassets\option.imageset\" />
+    <Folder Include="Assets.xcassets\delete.imageset\" />
+    <Folder Include="Assets.xcassets\add.imageset\" />
+    <Folder Include="Assets.xcassets\camera.imageset\" />
+    <Folder Include="Assets.xcassets\camera.imageset\" />
+    <Folder Include="Assets.xcassets\object.imageset\" />
+    <Folder Include="Assets.xcassets\box.imageset\" />
+    <Folder Include="Assets.xcassets\back.imageset\" />
+    <Folder Include="Assets.xcassets\LaunchImage.launchimage\" />
+    <Folder Include="Assets.xcassets\launch.imageset\" />
+    <Folder Include="Assets.xcassets\ok.imageset\" />
+    <Folder Include="Utility\" />
+  </ItemGroup>
+  <ItemGroup>
+    <InterfaceDefinition Include="LaunchScreen.storyboard" />
+    <InterfaceDefinition Include="Main.storyboard" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Info.plist" />
+    <None Include="Entitlements.plist" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Main.cs" />
+    <Compile Include="AppDelegate.cs" />
+    <Compile Include="Controller\CameraViewController.cs" />
+    <Compile Include="Controller\CameraViewController.designer.cs">
+      <DependentUpon>CameraViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\TabBarViewController.cs" />
+    <Compile Include="Controller\TabBarViewController.designer.cs">
+      <DependentUpon>TabBarViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\NavigationController.cs" />
+    <Compile Include="Controller\NavigationController.designer.cs">
+      <DependentUpon>NavigationController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\DetailViewController.cs" />
+    <Compile Include="Controller\DetailViewController.designer.cs">
+      <DependentUpon>DetailViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Delegate\SCNViewDelegate.cs" />
+    <Compile Include="Controller\ObjectViewController.cs" />
+    <Compile Include="Controller\ObjectViewController.designer.cs">
+      <DependentUpon>ObjectViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\BoxViewController.cs" />
+    <Compile Include="Controller\BoxViewController.designer.cs">
+      <DependentUpon>BoxViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\OptionViewController.cs" />
+    <Compile Include="Controller\OptionViewController.designer.cs">
+      <DependentUpon>OptionViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Connection\DatabaseConnection.cs" />
+    <Compile Include="Connection\ItemDAO.cs" />
+    <Compile Include="Model\Item.cs" />
+    <Compile Include="Model\MyObject.cs" />
+    <Compile Include="Model\Box.cs" />
+    <Compile Include="Connection\BoxDAO.cs" />
+    <Compile Include="Delegate\MyARSessionDelegate.cs" />
+    <Compile Include="Delegate\ObjectViewDelegate.cs" />
+    <Compile Include="Controller\DetailObjectController.cs" />
+    <Compile Include="Controller\DetailObjectController.designer.cs">
+      <DependentUpon>DetailObjectController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\ChoseBoxController.cs" />
+    <Compile Include="Controller\ChoseBoxController.designer.cs">
+      <DependentUpon>ChoseBoxController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\DetailBoxController.cs" />
+    <Compile Include="Controller\DetailBoxController.designer.cs">
+      <DependentUpon>DetailBoxController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\ShowObjectController.cs" />
+    <Compile Include="Controller\ShowObjectController.designer.cs">
+      <DependentUpon>ShowObjectController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Delegate\BoxViewDelegate.cs" />
+    <Compile Include="PresentationPopoverViewController.cs" />
+    <Compile Include="PresentetionPopoverViewController.designer.cs">
+      <DependentUpon>PresentationPopoverViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Slide.cs" />
+    <Compile Include="ScrollViewDelegate.cs" />
+    <Compile Include="Utility\Plane.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\plane_grid.png" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+</Project>
