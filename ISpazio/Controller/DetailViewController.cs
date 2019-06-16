@@ -1,4 +1,4 @@
-using Foundation;
+﻿using Foundation;
 using System;
 using UIKit;
 using NewTestArKit.Model;
@@ -9,7 +9,7 @@ namespace NewTestArKit
 {
     public partial class DetailViewController : UIViewController
     {
-    
+
         private MyObject obj;
         public MyObject Obj
         {
@@ -97,23 +97,30 @@ namespace NewTestArKit
 
         partial void addButtonPressed(UIButton sender)
         {
-            switch (SegmentChoiceTypeObject.SelectedSegment)
+            if (obj.allDistanceNotZero())
             {
-                case 0:
-                    Item item = new Item(obj);
+                switch (SegmentChoiceTypeObject.SelectedSegment)
+                {
+                    case 0:
+                        Item item = new Item(obj);
 
-                    ItemDAO itemDAO = new ItemDAO();
-                    itemDAO.insertItem(item);
+                        ItemDAO itemDAO = new ItemDAO();
+                        itemDAO.insertItem(item);
 
-                    break;
-                case 1:
-                    Box box = new Box(obj);
+                        break;
+                    case 1:
+                        Box box = new Box(obj);
 
-                    BoxDAO boxDAO = new BoxDAO();
-                    boxDAO.insertBox(box);
-                    break;
-                default:
-                    break;
+                        BoxDAO boxDAO = new BoxDAO();
+                        boxDAO.insertBox(box);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            else
+            {
+                alert("Non è possibile aggiungere l'oggetto", "Una delle dimensioni è uguale a 0");
             }
         }
 
@@ -123,6 +130,14 @@ namespace NewTestArKit
             heightLabel.Text = obj.Height.ToString() + " cm";
             widthLabel.Text = obj.Width.ToString() + " cm";
             depthLabel.Text = obj.Depth.ToString() + " cm";
+        }
+
+        private void alert(string title, string message)
+        {
+            var alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
+
+            alertController.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Cancel, null));
+            PresentViewController(alertController, true, null);
         }
 
     }

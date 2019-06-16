@@ -63,6 +63,14 @@ namespace NewTestArKit.Model
             return dimension;
         }
 
+        public bool allDistanceNotZero()
+        {
+            if (Height.Equals(0) || Width.Equals(0) || Depth.Equals(0))
+                return false;
+            else
+                return true;
+        }
+
 
         public override string ToString()
         {

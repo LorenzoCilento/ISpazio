@@ -23,7 +23,7 @@ namespace NewTestArKit
         private List<double> distanceList = new List<double>();
         private Dictionary<ARPlaneAnchor, Plane> planes = new Dictionary<ARPlaneAnchor, Plane>();
 
-        public Dictionary<ARPlaneAnchor,Plane> Planes { get => planes; }
+        public Dictionary<ARPlaneAnchor, Plane> Planes { get => planes; }
 
         private int nodeCalculated = 0;
         private double distance = 0;
@@ -148,7 +148,7 @@ namespace NewTestArKit
                 var res = result.First();
                 addSphereNode(worldTransform(res.WorldTransform), UIColor.Red, sphereArray);
 
-                if(sphereArray.Count >= 1)
+                if (sphereArray.Count >= 1)
                     eraseButton.Hidden = false;
 
                 if (sphereArray.Count() >= 2)
@@ -293,7 +293,9 @@ namespace NewTestArKit
             var b = startPoint.Y - endPoint.Y;
             var c = startPoint.Z - endPoint.Z;
 
-            return Math.Round((Math.Abs(Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2) + Math.Pow(c, 2))) * 100), 2);
+            //Arrotondamento a due cifre dopo la virgola
+
+            return Math.Round(Math.Sqrt(Math.Pow(a, 2) + Math.Pow(b, 2) + Math.Pow(c, 2)) * 100, 2);
         }
 
 
@@ -454,7 +456,7 @@ namespace NewTestArKit
                 count++;
                 value += a;
             }
-            return Math.Round(value / count,2);
+            return Math.Round(value / count, 2);
         }
 
         private double Media2(List<double> list)
@@ -462,14 +464,14 @@ namespace NewTestArKit
             double avg = 0;
             int count = 0;
 
-            foreach(var a in list)
+            foreach (var a in list)
             {
                 count += 1;
                 Console.WriteLine(a);
                 avg = ((count - 1) * avg + a) / count;
             }
 
-            return Math.Round(avg,2);
+            return Math.Round(avg, 2);
         }
 
         private double varianza(List<double> list)
@@ -478,7 +480,7 @@ namespace NewTestArKit
             int count = 0;
             double v = 0;
 
-            foreach(var a in list)
+            foreach (var a in list)
             {
                 count += 1;
                 double avgp = avg;

@@ -10,12 +10,12 @@ namespace NewTestArKit.Utility
         public SCNNode PlaneNode { get; set; }
         public SCNPlane PlaneGeometry { get; set; }
 
-         
+
         public Plane(ARPlaneAnchor anchor)
         {
             this.PlaneAnchor = anchor;
 
-            var grid = UIImage.FromBundle("plane_grid.png");
+            var grid = UIImage.FromBundle("plane_grid2.png");
 
             this.PlaneGeometry = SCNPlane.Create(PlaneAnchor.Extent.X, PlaneAnchor.Extent.Z);
             this.PlaneNode = SCNNode.FromGeometry(PlaneGeometry);
