@@ -16,7 +16,6 @@ namespace NewTestArKit
         private SCNScene scene;
         private SCNNode boxNode;
         private Box box;
-        //private List<SCNNode> itemsNode;
         private Dictionary<Item, SCNNode> itemsNodeMap;
 
         public int IDBox { get; set; }
@@ -50,7 +49,6 @@ namespace NewTestArKit
             scene = SCNScene.Create();
             sceneView.Scene = scene;
             sceneView.AutoenablesDefaultLighting = true;
-            //itemsNode = new List<SCNNode>();
             itemsNodeMap = new Dictionary<Item, SCNNode>();
         }
 
@@ -102,7 +100,7 @@ namespace NewTestArKit
             var cameraNode = new SCNNode
             {
                 Camera = camera,
-                Position = new SCNVector3(0, 0, 40)
+                Position = new SCNVector3(0, 0, 30)
             };
             scene.RootNode.AddChildNode(cameraNode);
             sceneView.AllowsCameraControl = true;
@@ -114,7 +112,6 @@ namespace NewTestArKit
             var h = (nfloat)Math.Round(box.Height, 0, MidpointRounding.AwayFromZero);
             var d = (nfloat)Math.Round(box.Depth, 0, MidpointRounding.AwayFromZero);
 
-            Console.WriteLine("Dimensioni box: " + w + " - " + h + " - " + d);
             var boxGeometry = SCNBox.Create(w + 0.1f, h + 0.1f, d + 0.1f, 0);
             boxNode = SCNNode.FromGeometry(boxGeometry);
 
@@ -133,13 +130,11 @@ namespace NewTestArKit
                 var h = (nfloat)i.PackDimY;
                 var d = (nfloat)i.PackDimZ;
 
-
                 var item = SCNBox.Create(w, h, d, 0);
                 var itemNode = SCNNode.FromGeometry(item);
-                Console.WriteLine(i.Name + " " + w + " - " + h + " - " + d + " position " + i.CoordX + " - " + i.CoordY + " - " + i.CoordZ);
                 item.FirstMaterial.Diffuse.Contents = randomColor();
                 itemNode.Position = calculateRelativePosition(i);
-                //itemsNode.Add(itemNode);
+
                 itemsNodeMap.Add(i, itemNode);
                 scene.RootNode.AddChildNode(itemNode);
             }
@@ -147,7 +142,6 @@ namespace NewTestArKit
 
         private void draw()
         {
-            //removeListFromParentNodeAndClear(itemsNode);
             drawItem();
         }
 
@@ -175,24 +169,28 @@ namespace NewTestArKit
         {
             foreach (KeyValuePair<Item, SCNNode> v in itemsNodeMap)
                 if (v.Key.Id.Equals(item.Id))
-                    v.Value.Geometry.FirstMaterial.Diffuse.Contents = UIColor.Red;
+                    v.Value.Geometry.FirstMaterial.Transparency = 0.8f;
                 else
-                    v.Value.Geometry.FirstMaterial.Diffuse.Contents = UIColor.Blue;
+                    v.Value.Geometry.FirstMaterial.Transparency = 1.0f;
         }
 
         private SCNVector3 calculateRelativePosition(Item i)
         {
-            var wItem = (nfloat)i.PackDimX;
-            var hItem = (nfloat)i.PackDimY;
-            var dItem = (nfloat)i.PackDimZ;
+            var offSetItemX = (i.PackDimX / 2);
+            var offSetItemY = (i.PackDimY / 2);
+            var offSetItemZ = (i.PackDimZ / 2);
 
-            var wBox = (nfloat)Math.Round(box.Width, 0, MidpointRounding.AwayFromZero);
-            var hBox = (nfloat)Math.Round(box.Height, 0, MidpointRounding.AwayFromZero);
-            var dBox = (nfloat)Math.Round(box.Depth, 0, MidpointRounding.AwayFromZero);
+            var wBox = Math.Round(box.Width, 0, MidpointRounding.AwayFromZero);
+            var hBox = Math.Round(box.Height, 0, MidpointRounding.AwayFromZero);
+            var dBox = Math.Round(box.Depth, 0, MidpointRounding.AwayFromZero);
 
-            var offSetX = (float)((wItem / 2) - (wBox / 2) + i.CoordX);
-            var offSetY = (float)((hItem / 2) - (hBox / 2) + i.CoordY);
-            var offSetZ = (float)((dItem / 2) - (dBox / 2) + i.CoordZ);
+            var offSetBoxX = (decimal)(-1 * dBox / 2);
+            var offSetBoxY = (decimal)(-1 * hBox / 2);
+            var offSetBoxZ = (decimal)(-1 * wBox / 2);
+
+            var offSetX = (float)(offSetBoxX + offSetItemX + i.CoordX);
+            var offSetY = (float)(offSetBoxY + offSetItemY + i.CoordY);
+            var offSetZ = (float)(offSetBoxZ + offSetItemZ + i.CoordZ);
 
             return new SCNVector3(offSetX, offSetY, offSetZ);
         }
@@ -217,7 +215,6 @@ namespace NewTestArKit
             switch (identifier)
             {
                 case "showItemController":
-                    Console.WriteLine("show item in draw");
                     var itemController = destination as ShowItemController;
                     itemController.IDBox = IDBox;
                     itemController.DrawBoxController = this;

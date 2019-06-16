@@ -7,17 +7,17 @@ namespace NewTestArKit.Model
     {
         public int Container { get; set; }
 
-        public int CoordX { get; set; }
+        public decimal CoordX { get; set; }
 
-        public int CoordY { get; set; }
+        public decimal CoordY { get; set; }
 
-        public int CoordZ { get; set; }
+        public decimal CoordZ { get; set; }
 
-        public int PackDimX { get; set; }
+        public decimal PackDimX { get; set; }
 
-        public int PackDimY { get; set; }
+        public decimal PackDimY { get; set; }
 
-        public int PackDimZ { get; set; }
+        public decimal PackDimZ { get; set; }
 
         public Item()
         {
