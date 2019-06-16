@@ -16,11 +16,19 @@ namespace NewTestArKit
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel depthLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel freeSpaceLabel { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIProgressView freeSpaceProgressBar { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel heightLabel { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -34,8 +42,17 @@ namespace NewTestArKit
         [GeneratedCode ("iOS Designer", "1.0")]
         SceneKit.SCNView sceneView { get; set; }
 
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel widthLabel { get; set; }
+
         void ReleaseDesignerOutlets ()
         {
+            if (depthLabel != null) {
+                depthLabel.Dispose ();
+                depthLabel = null;
+            }
+
             if (freeSpaceLabel != null) {
                 freeSpaceLabel.Dispose ();
                 freeSpaceLabel = null;
@@ -44,6 +61,11 @@ namespace NewTestArKit
             if (freeSpaceProgressBar != null) {
                 freeSpaceProgressBar.Dispose ();
                 freeSpaceProgressBar = null;
+            }
+
+            if (heightLabel != null) {
+                heightLabel.Dispose ();
+                heightLabel = null;
             }
 
             if (infoView != null) {
@@ -59,6 +81,11 @@ namespace NewTestArKit
             if (sceneView != null) {
                 sceneView.Dispose ();
                 sceneView = null;
+            }
+
+            if (widthLabel != null) {
+                widthLabel.Dispose ();
+                widthLabel = null;
             }
         }
     }

@@ -69,8 +69,6 @@ namespace NewTestArKit
 
             var item = Items[indexPath.Row];
             string itemName = item.Name;
-            var container = item.Container;
-
 
             if (cell == null)
             {
@@ -80,16 +78,8 @@ namespace NewTestArKit
             cell.TextLabel.Text = itemName;
             cell.Accessory = UITableViewCellAccessory.DetailDisclosureButton;
             cell.ImageView.Image = itemImage;
+            cell.DetailTextLabel.Text = "H: " + item.Height + " cm W: " + item.Width + " cm D: " + item.Depth + " cm";
 
-            if (container != 0)
-            {
-                var box = boxDAO.getBox(container);
-                cell.DetailTextLabel.Text = box.Name + "\tH: " + item.Height + " W: " + item.Width + " D: " + item.Depth;
-            }
-            else
-            {
-                cell.DetailTextLabel.Text = "Nessun pacco" + "\tH: " + item.Height + " W: " + item.Width + " D: " + item.Depth;
-            }
             return cell;
         }
 

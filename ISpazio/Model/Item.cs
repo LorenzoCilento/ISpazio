@@ -33,7 +33,7 @@ namespace NewTestArKit.Model
             CoordX = CoordY = CoordZ = PackDimX = PackDimY = PackDimZ = 0;
         }
 
-        public void updateCoordinate(int x, int y, int z, int pdx, int pdy, int pdz)
+        public void updateCoordinate(decimal x, decimal y, decimal z, decimal pdx, decimal pdy, decimal pdz)
         {
             CoordX = x;
             CoordY = y;

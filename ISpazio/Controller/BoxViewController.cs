@@ -86,7 +86,7 @@ namespace NewTestArKit
             }
 
             cell.TextLabel.Text = boxName;
-            cell.DetailTextLabel.Text = "H: " + box.Height + " W: " + box.Width + " D: " + box.Depth + " Oggetti: " + numberItem;
+            cell.DetailTextLabel.Text = "H: " + box.Height + " cm W: " + box.Width + " cm D: " + box.Depth + " cm Oggetti: " + numberItem;
             cell.ImageView.Image = boxImage;
             return cell;
         }

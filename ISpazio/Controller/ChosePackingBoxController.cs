@@ -132,17 +132,12 @@ namespace NewTestArKit
 
         private Packing.Item convertItem(Model.Item item)
         {
-            return new Packing.Item(item.Id, Rounds(item.Height), Rounds(item.Width), Rounds(item.Depth), 1); ;
+            return new Packing.Item(item.Id, (decimal)item.Height, (decimal)item.Width, (decimal)item.Depth, 1); ;
         }
 
         private Packing.Entities.Container convertBox(Box box)
         {
-            return new Packing.Entities.Container(box.Id, Rounds(box.Depth), Rounds(box.Width), Rounds(box.Height));
-        }
-
-        private decimal Rounds(double d)
-        {
-            return (decimal)Math.Round(d, 0, MidpointRounding.AwayFromZero);
+            return new Packing.Entities.Container(box.Id, (decimal)box.Depth, (decimal)box.Width, (decimal)box.Height);
         }
 
         private void checkPacking(List<Model.Item> list, int boxID)
@@ -181,7 +176,7 @@ namespace NewTestArKit
                 foreach (var v in listPacked)
                 {
                     var item = itemDAO.getItem(v.ID);
-                    item.updateCoordinate((int)v.CoordX, (int)v.CoordY, (int)v.CoordZ, (int)v.PackDimX, (int)v.PackDimY, (int)v.PackDimZ);
+                    item.updateCoordinate(v.CoordX, v.CoordY, v.CoordZ, v.PackDimX, v.PackDimY, v.PackDimZ);
                     itemDAO.updateItem(item);
                 }
 

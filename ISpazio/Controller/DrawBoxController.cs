@@ -110,13 +110,16 @@ namespace NewTestArKit
         private void drawBox()
         {
             var border = 0.05f;
-            var w = (nfloat)(Math.Round(Box.Width, 0, MidpointRounding.AwayFromZero) + border);
-            var h = (nfloat)(Math.Round(Box.Height, 0, MidpointRounding.AwayFromZero) + border);
-            var d = (nfloat)(Math.Round(Box.Depth, 0, MidpointRounding.AwayFromZero) + border);
+            //var w = (nfloat)(Math.Round(Box.Width, 0, MidpointRounding.AwayFromZero) + border);
+            //var h = (nfloat)(Math.Round(Box.Height, 0, MidpointRounding.AwayFromZero) + border);
+            //var d = (nfloat)(Math.Round(Box.Depth, 0, MidpointRounding.AwayFromZero) + border);
 
+            var w = (nfloat)Box.Width + border;
+            var h = (nfloat)Box.Height + border;
+            var d = (nfloat)Box.Depth + border;
 
-            var boxGeometry = SCNBox.Create(w, h, d
-                , 0);
+            Console.WriteLine("box " + w + " - " + h + " - " + d);
+            var boxGeometry = SCNBox.Create(d, h, w, 0);
             boxNode = SCNNode.FromGeometry(boxGeometry);
 
             boxGeometry.FirstMaterial.Diffuse.Contents = UIColor.Black;
@@ -136,7 +139,7 @@ namespace NewTestArKit
                 var h = (nfloat)i.PackDimY;
                 var d = (nfloat)i.PackDimZ;
 
-
+                Console.WriteLine("item " + w + " - " + h + " - " + d);
                 var item = SCNBox.Create(w, h, d, 0);
                 var itemNode = SCNNode.FromGeometry(item);
                 if (RColor)
@@ -196,9 +199,13 @@ namespace NewTestArKit
             var offSetItemY = (i.PackDimY / 2);
             var offSetItemZ = (i.PackDimZ / 2);
 
-            var wBox = Math.Round(Box.Width, 0, MidpointRounding.AwayFromZero);
-            var hBox = Math.Round(Box.Height, 0, MidpointRounding.AwayFromZero);
-            var dBox = Math.Round(Box.Depth, 0, MidpointRounding.AwayFromZero);
+            //var wBox = Math.Round(Box.Width, 0, MidpointRounding.AwayFromZero);
+            //var hBox = Math.Round(Box.Height, 0, MidpointRounding.AwayFromZero);
+            //var dBox = Math.Round(Box.Depth, 0, MidpointRounding.AwayFromZero);
+
+            var wBox = Box.Width;
+            var hBox = Box.Height;
+            var dBox = Box.Depth;
 
             var offSetBoxX = (decimal)(-1 * dBox / 2);
             var offSetBoxY = (decimal)(-1 * hBox / 2);
@@ -208,6 +215,7 @@ namespace NewTestArKit
             var offSetY = (float)(offSetBoxY + offSetItemY + i.CoordY);
             var offSetZ = (float)(offSetBoxZ + offSetItemZ + i.CoordZ);
 
+            Console.WriteLine("relative position: " + offSetBoxX + " - " + offSetBoxY + " - " + offSetBoxZ);
             return new SCNVector3(offSetX, offSetY, offSetZ);
         }
 
@@ -245,6 +253,9 @@ namespace NewTestArKit
         private void updateInfoBox()
         {
             nameLabel.Text = Box.Name;
+            heightLabel.Text = "H: " + Box.Height.ToString() + " cm";
+            widthLabel.Text = "W: " + Box.Width.ToString() + " cm";
+            depthLabel.Text = "D: " + Box.Depth.ToString() + " cm";
             updateFreeSpace();
         }
 
