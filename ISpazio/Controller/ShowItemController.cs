@@ -83,7 +83,7 @@ namespace NewTestArKit
                     itemDAO.updateItem(item);
                     Items.Remove(item);
                     tableView.DeleteRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.Fade);
-                    DrawBoxController.removeNodeFromScene(item);
+                    DrawBoxController.removeItem(item);
                     break;
                 default:
                     break;

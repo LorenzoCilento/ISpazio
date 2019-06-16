@@ -195,7 +195,7 @@ namespace NewTestArKit
                     }
                     else
                     {
-                        alert("Non tutti gli oggetti sono stati inseriti", "Consulta gli oggetti nel pacco per vedere quelli inseriti", "ok");
+                        alert("Non tutti gli oggetti entrano nel pacco", "Apri i dettagli del pacco per controllare quali sono stati inseriti", "ok");
                         insertPackedItem(listPacked, container);
                     }
                 }

@@ -65,11 +65,6 @@ namespace NewTestArKit
             Box = boxDAO.getBox(IDBox);
         }
 
-        private void updateData()
-        {
-            items = itemDAO.getAllItemInBox(IDBox);
-        }
-
         private void initLight()
         {
             // omnidirectional light
@@ -166,7 +161,7 @@ namespace NewTestArKit
 
         public void reDraw()
         {
-            updateData();
+            loadData();
             draw();
         }
 
@@ -269,6 +264,13 @@ namespace NewTestArKit
                 freeSpaceProgressBar.Progress = 0f;
             else
                 freeSpaceProgressBar.Progress = 1 - value;
+        }
+
+        public void removeItem(Item item)
+        {
+            removeNodeFromScene(item);
+            loadData();
+            updateFreeSpace();
         }
 
     }
