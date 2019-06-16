@@ -1,4 +1,4 @@
-using Foundation;
+﻿using Foundation;
 using System;
 using UIKit;
 using NewTestArKit.Model;
@@ -15,7 +15,7 @@ namespace NewTestArKit
         private ItemDAO itemDAO;
         private BoxDAO boxDAO;
 
-        public DetailObjectController (IntPtr handle) : base (handle)
+        public DetailObjectController(IntPtr handle) : base(handle)
         {
             itemDAO = new ItemDAO();
             boxDAO = new BoxDAO();
@@ -47,15 +47,10 @@ namespace NewTestArKit
             idLabel.Text = Item.Id.ToString();
             heightLabel.Text = Item.Height.ToString() + " cm";
             widthLabel.Text = Item.Width.ToString() + " cm";
-            depthLabel.Text = Item.Depth.ToString()+ " cm";
+            depthLabel.Text = Item.Depth.ToString() + " cm";
             nameTextField.Text = Item.Name;
             descriptionTextField.Text = Item.Description;
             volumeLabel.Text = Item.Volume.ToString() + " cm3";
-            if (Item.Container == 0)
-                boxLabel.Text = "Nessuno";
-            else
-                boxLabel.Text = boxDAO.getBox(Item.Container).Name;
-
         }
 
         partial void SaveChanges_TouchUpInside(UIButton sender)

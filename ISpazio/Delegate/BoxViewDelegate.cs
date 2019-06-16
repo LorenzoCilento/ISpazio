@@ -2,6 +2,7 @@
 using Foundation;
 using UIKit;
 using NewTestArKit.Connection;
+using NewTestArKit.Model;
 namespace NewTestArKit.Delegate
 {
     public class BoxViewDelegate : UITableViewDelegate
@@ -19,16 +20,40 @@ namespace NewTestArKit.Delegate
 
         public override UISwipeActionsConfiguration GetLeadingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
         {
-            var insertAction = ContextualFlagAction(indexPath.Row);
+            var cAction = clearAction(indexPath.Row);
+            var dAction = duplicateAction(indexPath.Row);
 
-            var leadingSwipe = UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { insertAction });
+            var leadingSwipe = UISwipeActionsConfiguration.FromActions(new UIContextualAction[] { cAction, dAction });
 
             leadingSwipe.PerformsFirstActionWithFullSwipe = false;
 
             return leadingSwipe;
         }
 
-        public UIContextualAction ContextualFlagAction(int row)
+        public UIContextualAction duplicateAction(int row)
+        {
+            var action = UIContextualAction.FromContextualActionStyle(
+                UIContextualActionStyle.Normal, "Duplica",
+                (insertAction, view, success) =>
+                {
+                    var source = Source as BoxViewController;
+                    var boxSelected = source.Boxes[row];
+
+                    var tmp = new Box(new MyObject(boxSelected.Name, boxSelected.Height, boxSelected.Width, boxSelected.Depth, boxSelected.Description));
+
+                    boxDAO.insertBox(tmp);
+
+                    source.reloadData();
+
+                    success(true);
+                });
+
+            action.BackgroundColor = UIColor.Blue;
+
+            return action;
+        }
+
+        public UIContextualAction clearAction(int row)
         {
             var action = UIContextualAction.FromContextualActionStyle(
                 UIContextualActionStyle.Normal, "Svuota",
@@ -55,7 +80,7 @@ namespace NewTestArKit.Delegate
                     success(true);
                 });
 
-            action.BackgroundColor = UIColor.Blue;
+            action.BackgroundColor = UIColor.LightGray;
 
             return action;
         }
@@ -67,7 +92,7 @@ namespace NewTestArKit.Delegate
 
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
-            Source.PerformSegue("showDetailBoxController", null);
+            Source.PerformSegue("showDrawBoxController", null);
         }
 
     }

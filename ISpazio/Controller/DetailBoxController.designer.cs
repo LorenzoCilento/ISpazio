@@ -28,14 +28,6 @@ namespace NewTestArKit
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel freeSpaceLabel { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIProgressView freeSpaceProgressBar { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel heightLabel { get; set; }
 
         [Outlet]
@@ -45,10 +37,6 @@ namespace NewTestArKit
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UITextField nameTextField { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton objectIntoBoxButton { get; set; }
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
@@ -83,16 +71,6 @@ namespace NewTestArKit
                 descriptionTextField = null;
             }
 
-            if (freeSpaceLabel != null) {
-                freeSpaceLabel.Dispose ();
-                freeSpaceLabel = null;
-            }
-
-            if (freeSpaceProgressBar != null) {
-                freeSpaceProgressBar.Dispose ();
-                freeSpaceProgressBar = null;
-            }
-
             if (heightLabel != null) {
                 heightLabel.Dispose ();
                 heightLabel = null;
@@ -106,11 +84,6 @@ namespace NewTestArKit
             if (nameTextField != null) {
                 nameTextField.Dispose ();
                 nameTextField = null;
-            }
-
-            if (objectIntoBoxButton != null) {
-                objectIntoBoxButton.Dispose ();
-                objectIntoBoxButton = null;
             }
 
             if (saveChanges != null) {

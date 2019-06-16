@@ -155,6 +155,10 @@
     <ImageAsset Include="Assets.xcassets\packing.imageset\icons8-scatola-100.png" />
     <ImageAsset Include="Assets.xcassets\packing.imageset\icons8-scatola-200.png" />
     <ImageAsset Include="Assets.xcassets\packing.imageset\icons8-scatola-400.png" />
+    <ImageAsset Include="Assets.xcassets\modify.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\modify.imageset\icons8-multi-edit-30.png" />
+    <ImageAsset Include="Assets.xcassets\modify.imageset\icons8-multi-edit-60.png" />
+    <ImageAsset Include="Assets.xcassets\modify.imageset\icons8-multi-edit-90.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -182,6 +186,7 @@
     <Folder Include="Packing\Entities\" />
     <Folder Include="Packing\Algorithms\" />
     <Folder Include="Assets.xcassets\packing.imageset\" />
+    <Folder Include="Assets.xcassets\modify.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -274,8 +279,8 @@
     <Compile Include="Controller\DrawBoxController.designer.cs">
       <DependentUpon>DrawBoxController.cs</DependentUpon>
     </Compile>
-    <Compile Include="ShowItemController.cs" />
-    <Compile Include="ShowItemController.designer.cs">
+    <Compile Include="Controller\ShowItemController.cs" />
+    <Compile Include="Controller\ShowItemController.designer.cs">
       <DependentUpon>ShowItemController.cs</DependentUpon>
     </Compile>
   </ItemGroup>

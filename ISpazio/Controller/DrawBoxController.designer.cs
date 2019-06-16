@@ -16,10 +16,46 @@ namespace NewTestArKit
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel freeSpaceLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIProgressView freeSpaceProgressBar { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIView infoView { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel nameLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         SceneKit.SCNView sceneView { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
+            if (freeSpaceLabel != null) {
+                freeSpaceLabel.Dispose ();
+                freeSpaceLabel = null;
+            }
+
+            if (freeSpaceProgressBar != null) {
+                freeSpaceProgressBar.Dispose ();
+                freeSpaceProgressBar = null;
+            }
+
+            if (infoView != null) {
+                infoView.Dispose ();
+                infoView = null;
+            }
+
+            if (nameLabel != null) {
+                nameLabel.Dispose ();
+                nameLabel = null;
+            }
+
             if (sceneView != null) {
                 sceneView.Dispose ();
                 sceneView = null;

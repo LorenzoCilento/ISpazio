@@ -1,4 +1,4 @@
-using Foundation;
+﻿using Foundation;
 using System;
 using UIKit;
 using System.Collections.Generic;
@@ -27,7 +27,6 @@ namespace NewTestArKit
 
         public BoxViewController()
         {
-            Console.WriteLine("box view costruttore");
             boxDAO = new BoxDAO();
             itemDAO = new ItemDAO();
             BoxViewDelegate = new BoxViewDelegate(this);
@@ -138,13 +137,12 @@ namespace NewTestArKit
 
             var identifier = segue.Identifier;
             var destination = segue.DestinationViewController;
-
+            var rowPath = boxView.IndexPathForSelectedRow;
             switch (identifier)
             {
-                case "showDetailBoxController":
-                    var detail = destination as DetailBoxController;
-                    var rowPath = boxView.IndexPathForSelectedRow;
-                    detail.IDBox = Boxes[rowPath.Row].Id;
+                case "showDrawBoxController":
+                    var drawController = destination as DrawBoxController;
+                    drawController.IDBox = Boxes[rowPath.Row].Id;
                     break;
                 default:
                     break;

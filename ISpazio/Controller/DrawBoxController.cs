@@ -15,7 +15,7 @@ namespace NewTestArKit
         private List<Item> items;
         private SCNScene scene;
         private SCNNode boxNode;
-        private Box box;
+        private Box Box;
         private Dictionary<Item, SCNNode> itemsNodeMap;
 
         public int IDBox { get; set; }
@@ -40,6 +40,7 @@ namespace NewTestArKit
         {
             base.ViewWillAppear(animated);
             itemsNodeMap.Clear();
+            updateInfoBox();
             drawBox();
             draw();
         }
@@ -61,7 +62,7 @@ namespace NewTestArKit
         private void loadData()
         {
             items = itemDAO.getAllItemInBox(IDBox);
-            box = boxDAO.getBox(IDBox);
+            Box = boxDAO.getBox(IDBox);
         }
 
         private void updateData()
@@ -75,7 +76,7 @@ namespace NewTestArKit
             var light = SCNLight.Create();
             var lightNode = SCNNode.Create();
             light.LightType = SCNLightType.Omni;
-            light.Color = UIColor.Blue;
+            light.Color = UIColor.White;
             lightNode.Light = light;
             lightNode.Position = new SCNVector3(-40, 40, 60);
             scene.RootNode.AddChildNode(lightNode);
@@ -84,7 +85,7 @@ namespace NewTestArKit
             var ambientLight = SCNLight.Create();
             var ambientLightNode = SCNNode.Create();
             ambientLight.LightType = SCNLightType.Ambient;
-            ambientLight.Color = UIColor.Purple;
+            ambientLight.Color = UIColor.White;
             ambientLightNode.Light = ambientLight;
             scene.RootNode.AddChildNode(ambientLightNode);
         }
@@ -108,15 +109,19 @@ namespace NewTestArKit
 
         private void drawBox()
         {
-            var w = (nfloat)Math.Round(box.Width, 0, MidpointRounding.AwayFromZero);
-            var h = (nfloat)Math.Round(box.Height, 0, MidpointRounding.AwayFromZero);
-            var d = (nfloat)Math.Round(box.Depth, 0, MidpointRounding.AwayFromZero);
+            var border = 0.05f;
+            var w = (nfloat)(Math.Round(Box.Width, 0, MidpointRounding.AwayFromZero) + border);
+            var h = (nfloat)(Math.Round(Box.Height, 0, MidpointRounding.AwayFromZero) + border);
+            var d = (nfloat)(Math.Round(Box.Depth, 0, MidpointRounding.AwayFromZero) + border);
 
-            var boxGeometry = SCNBox.Create(w + 0.1f, h + 0.1f, d + 0.1f, 0);
+
+            var boxGeometry = SCNBox.Create(w, h, d
+                , 0);
             boxNode = SCNNode.FromGeometry(boxGeometry);
 
-            boxGeometry.FirstMaterial.Diffuse.Contents = UIColor.LightGray;
-            boxGeometry.FirstMaterial.Transparency = 0.5f;
+            boxGeometry.FirstMaterial.Diffuse.Contents = UIColor.Black;
+            boxGeometry.FirstMaterial.FillMode = SCNFillMode.Lines;
+            boxGeometry.FirstMaterial.DoubleSided = true;
             boxNode.Position = new SCNVector3(0, 0, 0);
 
             scene.RootNode.AddChildNode(boxNode);
@@ -124,15 +129,26 @@ namespace NewTestArKit
 
         private void drawItem()
         {
+            bool RColor = true;
             foreach (var i in items)
             {
                 var w = (nfloat)i.PackDimX;
                 var h = (nfloat)i.PackDimY;
                 var d = (nfloat)i.PackDimZ;
 
+
                 var item = SCNBox.Create(w, h, d, 0);
                 var itemNode = SCNNode.FromGeometry(item);
-                item.FirstMaterial.Diffuse.Contents = randomColor();
+                if (RColor)
+                {
+                    item.FirstMaterial.Diffuse.Contents = randomColor(RColor);
+                    RColor = false;
+                }
+                else
+                {
+                    item.FirstMaterial.Diffuse.Contents = randomColor(RColor);
+                    RColor = true;
+                }
                 itemNode.Position = calculateRelativePosition(i);
 
                 itemsNodeMap.Add(i, itemNode);
@@ -168,8 +184,8 @@ namespace NewTestArKit
         public void highlightedBox(Item item)
         {
             foreach (KeyValuePair<Item, SCNNode> v in itemsNodeMap)
-                if (v.Key.Id.Equals(item.Id))
-                    v.Value.Geometry.FirstMaterial.Transparency = 0.8f;
+                if (!v.Key.Id.Equals(item.Id))
+                    v.Value.Geometry.FirstMaterial.Transparency = 0.6f;
                 else
                     v.Value.Geometry.FirstMaterial.Transparency = 1.0f;
         }
@@ -180,9 +196,9 @@ namespace NewTestArKit
             var offSetItemY = (i.PackDimY / 2);
             var offSetItemZ = (i.PackDimZ / 2);
 
-            var wBox = Math.Round(box.Width, 0, MidpointRounding.AwayFromZero);
-            var hBox = Math.Round(box.Height, 0, MidpointRounding.AwayFromZero);
-            var dBox = Math.Round(box.Depth, 0, MidpointRounding.AwayFromZero);
+            var wBox = Math.Round(Box.Width, 0, MidpointRounding.AwayFromZero);
+            var hBox = Math.Round(Box.Height, 0, MidpointRounding.AwayFromZero);
+            var dBox = Math.Round(Box.Depth, 0, MidpointRounding.AwayFromZero);
 
             var offSetBoxX = (decimal)(-1 * dBox / 2);
             var offSetBoxY = (decimal)(-1 * hBox / 2);
@@ -195,15 +211,12 @@ namespace NewTestArKit
             return new SCNVector3(offSetX, offSetY, offSetZ);
         }
 
-        private UIColor randomColor()
+        private UIColor randomColor(bool chose)
         {
-            Random random = new Random();
-            int r = random.Next(0, 256);
-            int g = random.Next(0, 256);
-            int b = random.Next(0, 256);
-
-
-            return UIColor.FromRGB(r, g, b);
+            if (chose)
+                return UIColor.FromRGB(234, 181, 67);
+            else
+                return UIColor.FromRGB(249, 127, 81);
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -219,10 +232,32 @@ namespace NewTestArKit
                     itemController.IDBox = IDBox;
                     itemController.DrawBoxController = this;
                     break;
+                case "showDetailBoxController":
+                    var detail = destination as DetailBoxController;
+                    detail.IDBox = IDBox;
+                    break;
 
                 default:
                     break;
             }
+        }
+
+        private void updateInfoBox()
+        {
+            nameLabel.Text = Box.Name;
+            updateFreeSpace();
+        }
+
+        private void updateFreeSpace()
+        {
+            var value = (float)(Box.RemainVolume / Box.Volume);
+            var percent = Math.Round(value * 100, 1);
+
+            freeSpaceLabel.Text = percent + " %";
+            if (value >= 1.0f)
+                freeSpaceProgressBar.Progress = 0f;
+            else
+                freeSpaceProgressBar.Progress = 1 - value;
         }
 
     }

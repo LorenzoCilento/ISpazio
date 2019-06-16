@@ -50,7 +50,7 @@ namespace NewTestArKit
 
             cell.TextLabel.Text = itemName;
             cell.ImageView.Image = itemImage;
-            cell.DetailTextLabel.Text = "H: " + item.Height + " W: " + item.Width + " D: " + item.Depth;
+            cell.DetailTextLabel.Text = "H: " + item.Height + "cm W: " + item.Width + "cm D: " + item.Depth + "cm";
 
 
             return cell;
@@ -95,5 +95,6 @@ namespace NewTestArKit
             var item = Items[indexPath.Row];
             DrawBoxController.highlightedBox(item);
         }
+
     }
 }

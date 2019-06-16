@@ -16,14 +16,6 @@ namespace NewTestArKit
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UILabel boxLabel { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UIButton choseBoxButton { get; set; }
-
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel depthLabel { get; set; }
 
         [Outlet]
@@ -60,16 +52,6 @@ namespace NewTestArKit
 
         void ReleaseDesignerOutlets ()
         {
-            if (boxLabel != null) {
-                boxLabel.Dispose ();
-                boxLabel = null;
-            }
-
-            if (choseBoxButton != null) {
-                choseBoxButton.Dispose ();
-                choseBoxButton = null;
-            }
-
             if (depthLabel != null) {
                 depthLabel.Dispose ();
                 depthLabel = null;

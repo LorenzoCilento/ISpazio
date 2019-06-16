@@ -54,7 +54,6 @@ namespace NewTestArKit
 
         public void loadData()
         {
-
             Items = itemDAO.getAllItem();
         }
 

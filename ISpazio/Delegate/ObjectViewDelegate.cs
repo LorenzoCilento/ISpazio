@@ -3,6 +3,7 @@ using Foundation;
 using UIKit;
 using System.Collections.Generic;
 using NewTestArKit.Model;
+using NewTestArKit.Connection;
 namespace NewTestArKit.Delegate
 {
     public class ObjectViewDelegate : UITableViewDelegate
@@ -12,12 +13,15 @@ namespace NewTestArKit.Delegate
         private List<Item> selectedItems = new List<Item>();
         public List<Item> SelectedItems { get => selectedItems; }
 
+        private ItemDAO itemDAO;
+
         public List<NSIndexPath> SelectedIndexPaths { get; set; }
 
         public ObjectViewDelegate(ObjectViewController source)
         {
             Source = source;
             SelectedIndexPaths = new List<NSIndexPath>();
+            itemDAO = new ItemDAO();
         }
 
         public override UISwipeActionsConfiguration GetLeadingSwipeActionsConfiguration(UITableView tableView, NSIndexPath indexPath)
@@ -34,14 +38,17 @@ namespace NewTestArKit.Delegate
         public UIContextualAction ContextualFlagAction(int row)
         {
             var action = UIContextualAction.FromContextualActionStyle(
-                UIContextualActionStyle.Normal, "Inserisci",
+                UIContextualActionStyle.Normal, "Duplica",
                 (insertAction, view, success) =>
                 {
-                    Console.WriteLine("inserisci");
+                    Console.WriteLine("duplica");
 
-                    BoxViewController boxView = new BoxViewController();
+                    var item = Source.Items[row];
+                    var tmp = new Item(new MyObject(item.Name, item.Height, item.Width, item.Depth, item.Description));
 
+                    itemDAO.insertItem(tmp);
 
+                    Source.reloadData();
                     success(true);
                 });
 
