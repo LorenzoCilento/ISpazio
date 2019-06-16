@@ -2,6 +2,7 @@
 using NewTestArKit.Model;
 using SQLite;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace NewTestArKit.Connection
 {
@@ -70,9 +71,10 @@ namespace NewTestArKit.Connection
 
             var data = connection.Sqlite;
 
-            items = data.Query<Item>("SELECT * FROM Item WHERE Container=?",id);
+            items = data.Query<Item>("SELECT * FROM Item WHERE Container=?", id);
 
             return items;
         }
+
     }
 }

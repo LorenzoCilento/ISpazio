@@ -36,5 +36,7 @@
 	<string>ISpazio</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Assets.xcassets/LaunchImage.launchimage</string>
+	<key>NSAppleMusicUsageDescription</key>
+	<string>L&apos;app vorrebbe accedere alla Libreria</string>
 </dict>
 </plist>

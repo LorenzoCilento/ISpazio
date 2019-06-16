@@ -151,6 +151,10 @@
     <ImageAsset Include="Assets.xcassets\ok.imageset\icons8-ok-filled-30.png" />
     <ImageAsset Include="Assets.xcassets\ok.imageset\icons8-ok-filled-60.png" />
     <ImageAsset Include="Assets.xcassets\ok.imageset\icons8-ok-filled-90.png" />
+    <ImageAsset Include="Assets.xcassets\packing.imageset\Contents.json" />
+    <ImageAsset Include="Assets.xcassets\packing.imageset\icons8-scatola-100.png" />
+    <ImageAsset Include="Assets.xcassets\packing.imageset\icons8-scatola-200.png" />
+    <ImageAsset Include="Assets.xcassets\packing.imageset\icons8-scatola-400.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
@@ -174,6 +178,10 @@
     <Folder Include="Assets.xcassets\launch.imageset\" />
     <Folder Include="Assets.xcassets\ok.imageset\" />
     <Folder Include="Utility\" />
+    <Folder Include="Packing\" />
+    <Folder Include="Packing\Entities\" />
+    <Folder Include="Packing\Algorithms\" />
+    <Folder Include="Assets.xcassets\packing.imageset\" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="LaunchScreen.storyboard" />
@@ -183,6 +191,7 @@
     <None Include="Info.plist" />
     <None Include="Entitlements.plist" />
     <None Include="packages.config" />
+    <None Include="Packing\LICENSE.md" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -248,9 +257,33 @@
     <Compile Include="Slide.cs" />
     <Compile Include="ScrollViewDelegate.cs" />
     <Compile Include="Utility\Plane.cs" />
+    <Compile Include="Packing\PackingService.cs" />
+    <Compile Include="Packing\Entities\Item.cs" />
+    <Compile Include="Packing\Entities\AlgorithmPackingResult.cs" />
+    <Compile Include="Packing\Entities\Container.cs" />
+    <Compile Include="Packing\Entities\ContainerPackingResult.cs" />
+    <Compile Include="Packing\Algorithms\AlgorithmBase.cs" />
+    <Compile Include="Packing\Algorithms\AlgorithmType.cs" />
+    <Compile Include="Packing\Algorithms\EB_AFIT.cs" />
+    <Compile Include="Packing\Algorithms\IPackingAlgorithm.cs" />
+    <Compile Include="Controller\ChosePackingBoxController.cs" />
+    <Compile Include="Controller\ChosePackingBoxController.designer.cs">
+      <DependentUpon>ChosePackingBoxController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controller\DrawBoxController.cs" />
+    <Compile Include="Controller\DrawBoxController.designer.cs">
+      <DependentUpon>DrawBoxController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="ShowItemController.cs" />
+    <Compile Include="ShowItemController.designer.cs">
+      <DependentUpon>ShowItemController.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\plane_grid.png" />
+    <BundleResource Include="Resources\item_image.png" />
+    <BundleResource Include="Resources\box_image.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
+  <Import Project="..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets" Condition="Exists('..\packages\NETStandard.Library.2.0.3\build\netstandard2.0\NETStandard.Library.targets')" />
 </Project>

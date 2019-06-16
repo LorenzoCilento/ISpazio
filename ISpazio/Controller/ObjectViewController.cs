@@ -1,4 +1,4 @@
-using Foundation;
+﻿using Foundation;
 using System;
 using UIKit;
 using System.Collections.Generic;
@@ -6,6 +6,9 @@ using NewTestArKit.Model;
 using NewTestArKit.Connection;
 using NewTestArKit.Delegate;
 using System.ComponentModel;
+using NewTestArKit.Packing;
+using NewTestArKit.Packing.Entities;
+using NewTestArKit.Packing.Algorithms;
 
 namespace NewTestArKit
 {
@@ -14,7 +17,9 @@ namespace NewTestArKit
         private ItemDAO itemDAO = new ItemDAO();
         private BoxDAO boxDAO = new BoxDAO();
 
-        public List<Item> Items { get; set; }
+        private UIImage itemImage;
+
+        public List<Model.Item> Items { get; set; }
 
         private ObjectViewDelegate objectViewDelegate;
 
@@ -36,6 +41,7 @@ namespace NewTestArKit
             TableView.Delegate = objectViewDelegate;
             TableView.AllowsMultipleSelectionDuringEditing = true;
 
+            itemImage = UIImage.FromBundle("item_image.png");
             setupEditDoneButton();
             loadData();
         }
@@ -62,15 +68,29 @@ namespace NewTestArKit
         {
             UITableViewCell cell = tableView.DequeueReusableCell(cellIdentifier);
 
-            string itemName = Items[indexPath.Row].Name;
+            var item = Items[indexPath.Row];
+            string itemName = item.Name;
+            var container = item.Container;
+
 
             if (cell == null)
             {
-                cell = new UITableViewCell(UITableViewCellStyle.Default, cellIdentifier);
+                cell = new UITableViewCell(UITableViewCellStyle.Subtitle, cellIdentifier);
             }
 
             cell.TextLabel.Text = itemName;
             cell.Accessory = UITableViewCellAccessory.DetailDisclosureButton;
+            cell.ImageView.Image = itemImage;
+
+            if (container != 0)
+            {
+                var box = boxDAO.getBox(container);
+                cell.DetailTextLabel.Text = box.Name + "\tH: " + item.Height + " W: " + item.Width + " D: " + item.Depth;
+            }
+            else
+            {
+                cell.DetailTextLabel.Text = "Nessun pacco" + "\tH: " + item.Height + " W: " + item.Width + " D: " + item.Depth;
+            }
             return cell;
         }
 
@@ -135,7 +155,7 @@ namespace NewTestArKit
                       TableView.SetEditing(false, true); // if we've half-swiped a row
                   TableView.SetEditing(true, true);
                   NavigationItem.LeftBarButtonItem = insert;
-                  NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { done,delete }, true);
+                  NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { done, delete }, true);
                   objectViewDelegate.SelectedItems.Clear();
               });
 
@@ -151,20 +171,32 @@ namespace NewTestArKit
 
             insert = new UIBarButtonItem("Inserisci in", UIBarButtonItemStyle.Plain, (sender, e) =>
             {
-                TableView.SetEditing(false, true);
-                NavigationItem.RightBarButtonItem = edit;
-                NavigationItem.LeftBarButtonItem = null;
-            });
+                var list = objectViewDelegate.SelectedItems;
 
-            delete = new UIBarButtonItem("Elimina",UIBarButtonItemStyle.Plain, (sender, e) =>
-            {
+                if (list.Count != 0)
+                {
+                    okCancelAlert("Attenzione", "il pacco che si selezionerà verra svuotato", list);
+                }
+                else
+                {
+                    alert("Nessun oggetto selezionato", "Seleziona qualche oggetto", "Ok");
+                }
+
                 TableView.SetEditing(false, true);
                 NavigationItem.RightBarButtonItem = null;
                 NavigationItem.RightBarButtonItem = edit;
                 NavigationItem.LeftBarButtonItem = null;
-                deleteMoreItem(objectViewDelegate.SelectedIndexPaths);
-                objectViewDelegate.SelectedIndexPaths.Clear();
             });
+
+            delete = new UIBarButtonItem("Elimina", UIBarButtonItemStyle.Plain, (sender, e) =>
+             {
+                 TableView.SetEditing(false, true);
+                 NavigationItem.RightBarButtonItem = null;
+                 NavigationItem.RightBarButtonItem = edit;
+                 NavigationItem.LeftBarButtonItem = null;
+                 deleteMoreItem(objectViewDelegate.SelectedIndexPaths);
+                 objectViewDelegate.SelectedIndexPaths.Clear();
+             });
         }
 
         private void deleteMoreItem(List<NSIndexPath> indexPaths)
@@ -187,5 +219,35 @@ namespace NewTestArKit
             TableView.DeleteRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.Fade);
             itemDAO.deleteItem(item);
         }
+
+        private void alert(string title, string message, string button)
+        {
+            var alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
+
+            alertController.AddAction(UIAlertAction.Create(button, UIAlertActionStyle.Default, null));
+
+            PresentViewController(alertController, true, null);
+        }
+
+        private void okCancelAlert(string title, string message, List<Model.Item> list)
+        {
+            //Create Alert
+            var okCancelAlertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
+
+            //Add Actions
+            okCancelAlertController.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Default, (obj) => { presentCheckController(obj, list); }));
+            okCancelAlertController.AddAction(UIAlertAction.Create("Annulla", UIAlertActionStyle.Cancel, alert => Console.WriteLine("Cancel was clicked")));
+
+            //Present Alert
+            PresentViewController(okCancelAlertController, true, null);
+        }
+
+        void presentCheckController(UIAlertAction obj, List<Model.Item> list)
+        {
+            var vc = new ChosePackingBoxController(list);
+
+            PresentViewController(vc, true, null);
+        }
+
     }
 }

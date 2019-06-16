@@ -11,18 +11,18 @@ using UIKit;
 
 namespace NewTestArKit
 {
-    [Register ("ChoseBoxController")]
-    partial class ChoseBoxController
+    [Register ("ShowItemController")]
+    partial class ShowItemController
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITableView tView { get; set; }
+        UIKit.UITableView table { get; set; }
 
         void ReleaseDesignerOutlets ()
         {
-            if (tView != null) {
-                tView.Dispose ();
-                tView = null;
+            if (table != null) {
+                table.Dispose ();
+                table = null;
             }
         }
     }

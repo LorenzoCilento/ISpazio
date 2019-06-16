@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
 using SQLite;
+using System.Linq;
 namespace NewTestArKit.Model
 {
     [Table("Box")]
@@ -19,30 +21,6 @@ namespace NewTestArKit.Model
             Depth = obj.Depth;
             Description = obj.Description;
             RemainVolume = Math.Round(Volume, 2);
-        }
-
-        public bool insertIntoBox(Item item)
-        {
-            var dimensionBox = getDimensionSortList();
-            var dimensionItem = item.getDimensionSortList();
-
-            Console.WriteLine("Volume box " + Volume + " Volume item " + item.Volume);
-
-            if (item.Volume > Volume)
-                return false;
-           
-            Console.WriteLine("Valori area box");
-            foreach (var z in dimensionBox)
-                Console.WriteLine(z);
-            Console.WriteLine("Valori area item");
-            foreach (var z in dimensionItem)
-                Console.WriteLine(z);
-            for (int i = 0; i < dimensionBox.Count; i++)
-            {
-                if (dimensionItem[i] > dimensionBox[i])
-                    return false;
-            }
-            return true;
         }
 
         public override string ToString()

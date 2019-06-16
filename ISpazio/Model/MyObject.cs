@@ -34,7 +34,7 @@ namespace NewTestArKit.Model
             Description = description;
         }
 
-        public List<double> getAllArea()
+        public List<double> getAllSortArea()
         {
             List<double> tmp = new List<double>();
 

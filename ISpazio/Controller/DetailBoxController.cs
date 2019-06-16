@@ -1,4 +1,4 @@
-using Foundation;
+﻿using Foundation;
 using System;
 using UIKit;
 using NewTestArKit.Model;
@@ -70,6 +70,15 @@ namespace NewTestArKit
                 case "showShowObjectController":
                     var showObject = destination as ShowObjectController;
                     showObject.IDBox = IDBox;
+                    break;
+                case "showDrawBoxController":
+                    var draw = destination as DrawBoxController;
+                    draw.IDBox = IDBox;
+                    break;
+                case "showItemController":
+                    Console.WriteLine("showItemController");
+                    var itemController = destination as ShowItemController;
+                    itemController.IDBox = IDBox;
                     break;
                 default:
                     break;

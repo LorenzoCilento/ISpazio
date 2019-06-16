@@ -1,13 +1,13 @@
-using Foundation;
-using System;
-using UIKit;
+﻿using Foundation;
 using NewTestArKit.Connection;
-using System.Collections.Generic;
 using NewTestArKit.Model;
+using System;
+using System.Collections.Generic;
+using UIKit;
 
 namespace NewTestArKit
 {
-    public partial class ShowObjectController : UITableViewController
+    public partial class ShowItemController : UITableViewController
     {
         public int IDBox { get; set; }
         private ItemDAO itemDAO;
@@ -15,16 +15,18 @@ namespace NewTestArKit
         private List<Item> Items { get; set; }
         private string cellIdentifier = "tableCell";
         private UIImage itemImage;
+        public DrawBoxController DrawBoxController { get; set; }
 
-        public ShowObjectController(IntPtr handle) : base(handle)
+        public ShowItemController(IntPtr handle) : base(handle)
         {
-            itemDAO = new ItemDAO();
-            boxDAO = new BoxDAO();
+
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            itemDAO = new ItemDAO();
+            boxDAO = new BoxDAO();
             Items = itemDAO.getAllItemInBox(IDBox);
             itemImage = UIImage.FromBundle("item_image.png");
         }
@@ -36,7 +38,7 @@ namespace NewTestArKit
 
         public override UITableViewCell GetCell(UITableView tableView, NSIndexPath indexPath)
         {
-            UITableViewCell cell = tableView.DequeueReusableCell(cellIdentifier);
+            UITableViewCell cell = table.DequeueReusableCell(cellIdentifier);
 
             var item = Items[indexPath.Row];
             string itemName = item.Name;
@@ -81,10 +83,17 @@ namespace NewTestArKit
                     itemDAO.updateItem(item);
                     Items.Remove(item);
                     tableView.DeleteRows(new NSIndexPath[] { indexPath }, UITableViewRowAnimation.Fade);
+                    DrawBoxController.removeNodeFromScene(item);
                     break;
                 default:
                     break;
             }
+        }
+
+        public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
+        {
+            var item = Items[indexPath.Row];
+            DrawBoxController.highlightedBox(item);
         }
     }
 }

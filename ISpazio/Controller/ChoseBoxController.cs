@@ -1,4 +1,4 @@
-using Foundation;
+﻿using Foundation;
 using NewTestArKit.Connection;
 using NewTestArKit.Model;
 using System;
@@ -16,6 +16,10 @@ namespace NewTestArKit
         public Item Item { get; set; }
 
         public ChoseBoxController(IntPtr handle) : base(handle)
+        {
+        }
+
+        public ChoseBoxController()
         {
         }
 
@@ -58,45 +62,46 @@ namespace NewTestArKit
             var idBoxSelected = boxSelected.Id;
             var remainVolumeBoxSelexted = boxSelected.RemainVolume;
 
-            if (Item.Container != idBoxSelected)
-            {
-                if (Item.Container != 0)
-                {
-                    deleteVolumeFromPreviusBox();
-                }
+            //if (Item.Container != idBoxSelected)
+            //{
+            //    if (boxSelected.insertIntoBox(Item))
+            //    {
+            //        if (Item.Container != 0)
+            //        {
+            //            deleteVolumeFromPreviusBox();
+            //        }
 
-                if (boxSelected.insertIntoBox(Item))
-                {
-                    CheckmarkNoneOtherBox();
+            //        CheckmarkNoneOtherBox();
 
-                    insertObjectInBox(indexPath, boxSelected);
-                }
-                else
-                {
-                    tableView.DeselectRow(indexPath, true);
+            //        insertObjectInBox(indexPath, boxSelected);
+            //    }
+            //    else
+            //    {
+            //        tableView.DeselectRow(indexPath, true);
 
-                    alert("Spazio nel box insufficiente", "Scegliere un altro box", "OK");
-                }
-            }
-            else
-            {
-                alert("L'oggetto è già nel box selezionato", "Scegliere un altro box", "OK");
+            //        alert("Spazio nel box insufficiente", "Scegliere un altro box", "OK");
+            //    }
+            //}
+            //else
+            //{
+            //    alert("L'oggetto è già nel box selezionato", "Scegliere un altro box", "OK");
 
-            }
+            //}
 
         }
 
         private void CheckmarkNoneOtherBox()
         {
-            nint section = tableView.NumberOfSections();
+            nint section = tView.NumberOfSections();
+
 
             for (var i = 0; i < section; i++)
             {
-                nint rows = tableView.NumberOfRowsInSection(i);
+                nint rows = tView.NumberOfRowsInSection(i);
                 for (var z = 0; z < rows; z++)
                 {
                     NSIndexPath path = NSIndexPath.FromRowSection(z, i);
-                    var cell = tableView.CellAt(path);
+                    var cell = tView.CellAt(path);
                     if (cell.Accessory == UITableViewCellAccessory.Checkmark)
                         cell.Accessory = UITableViewCellAccessory.None;
                 }
@@ -106,7 +111,7 @@ namespace NewTestArKit
         private void deleteVolumeFromPreviusBox()
         {
             var previusBox = BoxDAO.getBox(Item.Container);
-         
+
             previusBox.RemainVolume += Item.Volume;
             BoxDAO.updateBox(previusBox);
         }
@@ -124,7 +129,7 @@ namespace NewTestArKit
         {
             var idBoxSelected = boxSelected.Id;
             var remainVolumeBoxSelexted = boxSelected.RemainVolume;
-            tableView.CellAt(indexPath).Accessory = UITableViewCellAccessory.Checkmark;
+            tView.CellAt(indexPath).Accessory = UITableViewCellAccessory.Checkmark;
 
             Item.Container = idBoxSelected;
 

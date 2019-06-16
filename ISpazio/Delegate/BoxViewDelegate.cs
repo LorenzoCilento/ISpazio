@@ -32,7 +32,8 @@ namespace NewTestArKit.Delegate
         {
             var action = UIContextualAction.FromContextualActionStyle(
                 UIContextualActionStyle.Normal, "Svuota",
-                (insertAction, view, success) => {
+                (insertAction, view, success) =>
+                {
                     var source = Source as BoxViewController;
                     var boxSelected = source.Boxes[row];
 

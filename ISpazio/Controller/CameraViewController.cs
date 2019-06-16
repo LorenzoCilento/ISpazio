@@ -66,6 +66,10 @@ namespace NewTestArKit
 
         }
 
+        public CameraViewController()
+        {
+        }
+
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
@@ -86,6 +90,7 @@ namespace NewTestArKit
         public override void ViewWillDisappear(bool animated)
         {
             base.ViewWillDisappear(animated);
+            reset();
             sceneView.Session.Pause();
         }
 
@@ -102,12 +107,15 @@ namespace NewTestArKit
             PresentViewController(vc, true, null);
         }
 
+        /* Setup Vision Rectangle Request */
         private void setupRectangle()
         {
             rectanglesRequest = new VNDetectRectanglesRequest(RectagleDetect);
             rectanglesRequest.MaximumObservations = 1;
         }
 
+        /* This function called when user touch on the screen. This function call the find rectangle 
+         * function if it is active otherwise call the measure distance function  */
         public override void TouchesBegan(NSSet touches, UIEvent evt)
         {
             var touch = (UITouch)touches.FirstOrDefault();
@@ -123,6 +131,9 @@ namespace NewTestArKit
             }
         }
 
+
+        /* This funciton apply point on the scene and when the point are more the two it calculate the distace from
+        the last point to the previous one  */
         private void measureDistance()
         {
             var midX = sceneView.Frame.GetMidX();
@@ -137,27 +148,33 @@ namespace NewTestArKit
                 var res = result.First();
                 addSphereNode(worldTransform(res.WorldTransform), UIColor.Red, sphereArray);
 
+                if(sphereArray.Count >= 1)
+                    eraseButton.Hidden = false;
+
                 if (sphereArray.Count() >= 2)
                 {
                     distance += distancePointToPoint();
-                    addText(distance.ToString());
-                    eraseButton.Hidden = false;
+                    addTextMesarue(distance.ToString());
                     okButton.Hidden = false;
                     addMessage("Se la misura è corretta clicca sulla spunta per confermare o su cancella per ripetere", 5);
                 }
             }
         }
 
+        /* This function called when the user touche the ok button and if accuracy mode is active start the accuracy algorithm 
+        otherwise start the standard algorithm */
         partial void OkButton_TouchUpInside(UIButton sender)
         {
             if (isActiveMeasyreAccuracy)
             {
                 distanceList.Add(distance);
                 countMeasure++;
+                Console.WriteLine(AccuracyValue + " - " + countMeasure);
                 reset();
                 if (countMeasure == AccuracyValue)
                 {
-                    addDistance(mediaMeasure(distanceList));
+                    addDistance(Media2(distanceList));
+                    Console.WriteLine(varianza(distanceList));
                     distanceList.Clear();
                     countMeasure = 0;
                     reset();
@@ -168,9 +185,10 @@ namespace NewTestArKit
                 addDistance(distance);
                 addMessage("Seleziona in alto la prossima dimensione", 3);
             }
-
+            reset();
         }
 
+        /* This function calculate the distance betwwen two point and return double value */
         private double distancePointToPoint()
         {
             var startPoint = sphereArray[nodeCalculated].Position;
@@ -180,6 +198,7 @@ namespace NewTestArKit
             return getDistance(startPoint, endPoint);
         }
 
+        /* This function add the measure to the selected dimension */
         private void addDistance(double dst)
         {
             switch (dimensionChoise.SelectedSegment)
@@ -200,11 +219,13 @@ namespace NewTestArKit
 
         }
 
+        /* This function called when the user touch erase button */
         partial void EraseButton_TouchUpInside(UIButton sender)
         {
             reset();
         }
 
+        /* This funtion start the rectagle request */
         public void findRectangle(ARFrame currentFrame)
         {
             var handler = new VNImageRequestHandler(currentFrame.CapturedImage, new NSDictionary());
@@ -218,6 +239,7 @@ namespace NewTestArKit
 
         }
 
+        /* This function  */
         public void RectagleDetect(VNRequest request, NSError err)
         {
             if (err != null)
@@ -301,6 +323,7 @@ namespace NewTestArKit
 
             distance = 0;
             nodeCalculated = 0;
+            measureLabel.Text = "";
             sphereArray.Clear();
             sphereRectArray.Clear();
             eraseButton.Hidden = true;
@@ -326,7 +349,7 @@ namespace NewTestArKit
             sceneView.Scene.RootNode.AddChildNode(sphereNode);
         }
 
-        public void addText(String text)
+        public void addTextMesarue(String text)
         {
             var position = sphereArray[nodeCalculated].Position;
 
@@ -337,6 +360,8 @@ namespace NewTestArKit
             textNode = SCNNode.FromGeometry(textGeom);
             textNode.Scale = new SCNVector3(0.003f, 0.003f, 0.003f);
             textNode.Position = new SCNVector3(position.X, position.Y + 0.01f, position.Z);
+
+            measureLabel.Text = text + " cm";
 
             textArray.Add(textNode);
             sceneView.Scene.RootNode.AddChildNode(textNode);
@@ -356,14 +381,16 @@ namespace NewTestArKit
             {
                 PlaneDetection = ARPlaneDetection.Horizontal,
                 LightEstimationEnabled = true,
-                //WorldAlignment = ARWorldAlignment.Gravity,
+                WorldAlignment = ARWorldAlignment.Gravity,
                 AutoFocusEnabled = true,
                 EnvironmentTexturing = AREnvironmentTexturing.Automatic,
             };
 
             initMessageView();
 
-            sceneView.Session.Run(configuration, ARSessionRunOptions.RemoveExistingAnchors | ARSessionRunOptions.ResetTracking);
+            var option = ARSessionRunOptions.RemoveExistingAnchors | ARSessionRunOptions.ResetTracking;
+
+            sceneView.Session.Run(configuration, option);
         }
 
         public override void PrepareForSegue(UIStoryboardSegue segue, NSObject sender)
@@ -430,6 +457,38 @@ namespace NewTestArKit
             return Math.Round(value / count,2);
         }
 
+        private double Media2(List<double> list)
+        {
+            double avg = 0;
+            int count = 0;
+
+            foreach(var a in list)
+            {
+                count += 1;
+                Console.WriteLine(a);
+                avg = ((count - 1) * avg + a) / count;
+            }
+
+            return Math.Round(avg,2);
+        }
+
+        private double varianza(List<double> list)
+        {
+            double avg = 0;
+            int count = 0;
+            double v = 0;
+
+            foreach(var a in list)
+            {
+                count += 1;
+                double avgp = avg;
+                avg = ((count - 1) * avg + a) / count;
+                v = ((count - 1) * v + (a - avg) * (a - avgp)) / count;
+            }
+
+            return v;
+        }
+
         public override void DidReceiveMemoryWarning()
         {
             base.DidReceiveMemoryWarning();
@@ -477,5 +536,6 @@ namespace NewTestArKit
             messageLabel.Text = message;
             endMessageView(timeDelay);
         }
+
     }
 }

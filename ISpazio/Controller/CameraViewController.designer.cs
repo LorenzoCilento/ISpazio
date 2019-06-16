@@ -23,6 +23,10 @@ namespace NewTestArKit
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel measureLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UILabel messageLabel { get; set; }
 
         [Outlet]
@@ -75,6 +79,11 @@ namespace NewTestArKit
             if (eraseButton != null) {
                 eraseButton.Dispose ();
                 eraseButton = null;
+            }
+
+            if (measureLabel != null) {
+                measureLabel.Dispose ();
+                measureLabel = null;
             }
 
             if (messageLabel != null) {

@@ -13,29 +13,38 @@ namespace NewTestArKit
         private UIBarButtonItem edit;
         private UIBarButtonItem done;
 
+        private UIImage boxImage;
+
         public List<Box> Boxes { get; set; }
 
         private string cellIdentifier = "tableCell";
 
-        private BoxViewDelegate boxViewDelegate;
+        private BoxViewDelegate BoxViewDelegate { get; set; }
 
         private BoxDAO boxDAO;
 
         private ItemDAO itemDAO;
 
-        public BoxViewController() { }
+        public BoxViewController()
+        {
+            Console.WriteLine("box view costruttore");
+            boxDAO = new BoxDAO();
+            itemDAO = new ItemDAO();
+            BoxViewDelegate = new BoxViewDelegate(this);
+        }
 
-        public BoxViewController (IntPtr handle) : base (handle)
+        public BoxViewController(IntPtr handle) : base(handle)
         {
             boxDAO = new BoxDAO();
             itemDAO = new ItemDAO();
+            BoxViewDelegate = new BoxViewDelegate(this);
+            boxImage = UIImage.FromBundle("box_image.png");
         }
 
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
-            boxViewDelegate = new BoxViewDelegate(this);
-            boxView.Delegate = boxViewDelegate;
+            boxView.Delegate = BoxViewDelegate;
 
             setupEditDoneButton();
 
@@ -50,7 +59,6 @@ namespace NewTestArKit
 
         public void loadData()
         {
-            BoxDAO boxDAO = new BoxDAO();
             Boxes = boxDAO.getAllBox();
         }
 
@@ -69,15 +77,18 @@ namespace NewTestArKit
         {
             UITableViewCell cell = tableView.DequeueReusableCell(cellIdentifier);
 
-            string boxName = Boxes[indexPath.Row].Name;
-            
+            var box = Boxes[indexPath.Row];
+            string boxName = box.Name;
+            var numberItem = itemDAO.getAllItemInBox(box.Id).Count;
+
             if (cell == null)
             {
-                cell = new UITableViewCell(UITableViewCellStyle.Default, cellIdentifier);
+                cell = new UITableViewCell(UITableViewCellStyle.Subtitle, cellIdentifier);
             }
 
             cell.TextLabel.Text = boxName;
-
+            cell.DetailTextLabel.Text = "H: " + box.Height + " W: " + box.Width + " D: " + box.Depth + " Oggetti: " + numberItem;
+            cell.ImageView.Image = boxImage;
             return cell;
         }
 
@@ -92,7 +103,7 @@ namespace NewTestArKit
 
                     var items = itemDAO.getAllItemInBox(box.Id);
 
-                    foreach(var i in items)
+                    foreach (var i in items)
                     {
                         i.Container = 0;
                         itemDAO.updateItem(i);
@@ -153,7 +164,8 @@ namespace NewTestArKit
 
             NavigationItem.RightBarButtonItem = edit;
 
-            done = new UIBarButtonItem("Fine", UIBarButtonItemStyle.Done, (s, e) => {
+            done = new UIBarButtonItem("Fine", UIBarButtonItemStyle.Done, (s, e) =>
+            {
                 TableView.SetEditing(false, true);
                 NavigationItem.RightBarButtonItem = edit;
             });

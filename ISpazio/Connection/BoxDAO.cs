@@ -61,5 +61,24 @@ namespace NewTestArKit.Connection
             data.Delete(box);
         }
 
+        public void resetBox(int id)
+        {
+            var box = getBox(id);
+
+            box.RemainVolume = box.Volume;
+
+            ItemDAO itemDAO = new ItemDAO();
+
+            var items = itemDAO.getAllItemInBox(id);
+
+            foreach(var i in items)
+            {
+                var item = i;
+                item.Container = 0;
+                itemDAO.updateItem(item);
+            }
+
+            updateBox(box);
+        }
     }
 }

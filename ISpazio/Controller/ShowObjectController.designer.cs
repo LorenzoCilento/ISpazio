@@ -14,16 +14,8 @@ namespace NewTestArKit
     [Register ("ShowObjectController")]
     partial class ShowObjectController
     {
-        [Outlet]
-        [GeneratedCode ("iOS Designer", "1.0")]
-        UIKit.UITableView tableView { get; set; }
-
         void ReleaseDesignerOutlets ()
         {
-            if (tableView != null) {
-                tableView.Dispose ();
-                tableView = null;
-            }
         }
     }
 }
