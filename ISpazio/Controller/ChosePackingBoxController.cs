@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using NewTestArKit.Packing.Algorithms;
 using NewTestArKit.Packing.Entities;
 using NewTestArKit.Packing;
+using System.Linq;
 
 namespace NewTestArKit
 {
@@ -21,7 +22,11 @@ namespace NewTestArKit
 
         private string cellIdentifier = "tableCell";
 
+        private List<int> SelectedBoxes;
+
         private UIBarButtonItem insert;
+        private UIBarButtonItem edit;
+        private UIBarButtonItem done;
 
         public ChosePackingBoxController(List<Model.Item> list)
         {
@@ -37,6 +42,9 @@ namespace NewTestArKit
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            SelectedBoxes = new List<int>();
+            setupEditDoneButton();
+            TableView.AllowsMultipleSelectionDuringEditing = true;
             loadData();
             boxImage = UIImage.FromBundle("box_image.png");
         }
@@ -81,7 +89,26 @@ namespace NewTestArKit
         public override void RowSelected(UITableView tableView, NSIndexPath indexPath)
         {
             var selectedBoxId = Boxes[indexPath.Row].Id;
-            checkPacking(Item, selectedBoxId);
+
+            if (TableView.Editing != true)
+                PackingInOneBox(Item, selectedBoxId);
+            else
+            {
+                var box = Boxes[indexPath.Row];
+                if (!SelectedBoxes.Contains(box.Id))
+                {
+                    SelectedBoxes.Add(box.Id);
+                    //SelectedIndexPaths.Add(indexPath);
+                }
+            }
+        }
+
+        public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
+        {
+            var selectedBoxId = Boxes[indexPath.Row].Id;
+
+            if (SelectedBoxes.Contains(selectedBoxId))
+                SelectedBoxes.Remove(selectedBoxId);
         }
 
         private void setupNavigationItemButton()
@@ -140,7 +167,7 @@ namespace NewTestArKit
             return new Packing.Entities.Container(box.Id, (decimal)box.Depth, (decimal)box.Width, (decimal)box.Height);
         }
 
-        private void checkPacking(List<Model.Item> list, int boxID)
+        private void PackingInOneBox(List<Model.Item> list, int boxID)
         {
             var box = boxDAO.getBox(boxID);
             if (list.Count != 0)
@@ -156,6 +183,7 @@ namespace NewTestArKit
                 List<int> algorithms = new List<int>();
                 algorithms.Add((int)AlgorithmType.EB_AFIT);
 
+                //Avvio algoritmo EB-AFIT
                 List<ContainerPackingResult> result = PackingService.Pack(containers, itemsToPack, algorithms);
 
                 List<Packing.Item> listPacked = new List<Packing.Item>();
@@ -181,7 +209,6 @@ namespace NewTestArKit
                 }
 
 
-
                 if (listUnpacked.Count == 0 && listPacked.Count == 0)
                 {
                     alert("Impossibile completare", "Non è stato possibile inserire nessun oggetto nel pacco", "ok");
@@ -202,11 +229,74 @@ namespace NewTestArKit
             }
         }
 
+        private void PackingInMoreBox(List<Model.Item> list, List<int> boxID)
+        {
+            List<Box> boxes = new List<Box>();
+            foreach (var i in boxID)
+                boxes.Add(boxDAO.getBox(i));
+
+
+            List<Packing.Item> itemsToPack = convertListItem(list);
+
+            List<int> algorithms = new List<int>();
+            algorithms.Add((int)AlgorithmType.EB_AFIT);
+
+            if (list.Count != 0)
+            {
+                foreach (var z in boxes)
+                {
+                    Console.WriteLine("Provo pacco " + z.Name);
+                    if (itemsToPack.Count != 0)
+                    {
+                        boxDAO.resetBox(z.Id);
+                        List<Packing.Entities.Container> containers = new List<Packing.Entities.Container>();
+                        containers.Add(convertBox(z));
+
+
+                        //Avvio algoritmo EB-AFIT
+                        List<ContainerPackingResult> result = PackingService.Pack(containers, itemsToPack, algorithms);
+
+                        List<Packing.Item> listPacked = new List<Packing.Item>();
+                        List<Packing.Item> listUnpacked = new List<Packing.Item>();
+
+                        var container = 0;
+                        foreach (var a in result)
+                        {
+                            container = a.ContainerID;
+
+                            foreach (var i in a.AlgorithmPackingResults)
+                            {
+                                listPacked = i.PackedItems;
+                                listUnpacked = i.UnpackedItems;
+                            }
+                        }
+
+                        foreach (var v in listPacked)
+                        {
+                            var item = itemDAO.getItem(v.ID);
+                            item.updateCoordinate(v.CoordX, v.CoordY, v.CoordZ, v.PackDimX, v.PackDimY, v.PackDimZ);
+                            itemDAO.updateItem(item);
+                        }
+
+                        insertPackedItem(listPacked, container);
+                        itemsToPack = listUnpacked;
+                    }
+                    else
+                    {
+                        alert("Completato", "tutti gli oggetti sono stati imballati", "ok");
+                        break;
+                    }
+                }
+                if (itemsToPack.Count != 0)
+                    alert("Non tutti gli oggetti entrano nei pacchi", "Apri i dettagli del pacco per controllare quali sono stati inseriti", "ok");
+            }
+        }
+
         private void alert(string title, string message, string button)
         {
             var alertController = UIAlertController.Create(title, message, UIAlertControllerStyle.Alert);
 
-            alertController.AddAction(UIAlertAction.Create(button, UIAlertActionStyle.Default, (obj) => { DismissViewController(true, null); }));
+            alertController.AddAction(UIAlertAction.Create(button, UIAlertActionStyle.Default, (obj) => { NavigationController.PopViewController(true); }));
 
             PresentViewController(alertController, true, null);
         }
@@ -229,6 +319,53 @@ namespace NewTestArKit
 
             box.RemainVolume = remainVolumeBoxSelexted - item.Volume;
             boxDAO.updateBox(box);
+        }
+
+        private void setupEditDoneButton()
+        {
+
+            edit = new UIBarButtonItem("Modifica", UIBarButtonItemStyle.Plain, (s, e) =>
+            {
+                if (TableView.Editing)
+                    TableView.SetEditing(false, true); // if we've half-swiped a row
+                TableView.SetEditing(true, true);
+                NavigationItem.LeftBarButtonItem = insert;
+                NavigationItem.SetRightBarButtonItems(new UIBarButtonItem[] { done }, true);
+                SelectedBoxes.Clear();
+            });
+
+            NavigationItem.RightBarButtonItem = edit;
+
+            done = new UIBarButtonItem("Fine", UIBarButtonItemStyle.Done, (s, e) =>
+            {
+                TableView.SetEditing(false, true);
+                NavigationItem.RightBarButtonItems = null;
+                NavigationItem.RightBarButtonItem = edit;
+                NavigationItem.LeftBarButtonItem = null;
+            });
+
+            insert = new UIBarButtonItem("Inserisci in", UIBarButtonItemStyle.Plain, (sender, e) =>
+            {
+                var list = SelectedBoxes;
+
+                if (list.Count != 0)
+                {
+                    if (list.Count == 1)
+                        PackingInOneBox(Item, list.First());
+                    else
+                        PackingInMoreBox(Item, list);
+                }
+                else
+                {
+                    alert("Nessun oggetto selezionato", "Seleziona qualche oggetto", "Ok");
+                }
+
+                TableView.SetEditing(false, true);
+                NavigationItem.RightBarButtonItem = null;
+                NavigationItem.RightBarButtonItem = edit;
+                NavigationItem.LeftBarButtonItem = null;
+            });
+
         }
 
     }

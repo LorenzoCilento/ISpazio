@@ -33,7 +33,7 @@
 	<key>NSCameraUsageDescription</key>
 	<string>L&apos;app vorrebbe utilizzare la fotocamera</string>
 	<key>CFBundleName</key>
-	<string>ISpazio</string>
+	<string>iSpazio</string>
 	<key>XSLaunchImageAssets</key>
 	<string>Assets.xcassets/LaunchImage.launchimage</string>
 	<key>NSAppleMusicUsageDescription</key>

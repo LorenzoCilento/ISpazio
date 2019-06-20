@@ -233,7 +233,6 @@
     <Compile Include="Connection\DatabaseConnection.cs" />
     <Compile Include="Connection\ItemDAO.cs" />
     <Compile Include="Model\Item.cs" />
-    <Compile Include="Model\MyObject.cs" />
     <Compile Include="Model\Box.cs" />
     <Compile Include="Connection\BoxDAO.cs" />
     <Compile Include="Delegate\MyARSessionDelegate.cs" />
@@ -283,6 +282,7 @@
     <Compile Include="Controller\ShowItemController.designer.cs">
       <DependentUpon>ShowItemController.cs</DependentUpon>
     </Compile>
+    <Compile Include="Model\MyObject.cs" />
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\plane_grid.png" />

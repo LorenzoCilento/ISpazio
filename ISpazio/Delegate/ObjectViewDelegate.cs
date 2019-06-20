@@ -75,8 +75,42 @@ namespace NewTestArKit.Delegate
                     selectedItems.Add(item);
                     SelectedIndexPaths.Add(indexPath);
                 }
+
             }
         }
 
+        public override void RowDeselected(UITableView tableView, NSIndexPath indexPath)
+        {
+            var item = Source.Items[indexPath.Row];
+            if (selectedItems.Contains(item))
+            {
+                selectedItems.Remove(item);
+                SelectedIndexPaths.Remove(indexPath);
+            }
+        }
+
+        private void removeItem(Item item)
+        {
+            foreach (var i in selectedItems)
+            {
+                if (i.Id.Equals(item.Id))
+                {
+                    selectedItems.Remove(i);
+                    break;
+                }
+            }
+        }
+
+        private void removeIndexPath(NSIndexPath indexPath)
+        {
+            foreach (var i in SelectedIndexPaths)
+            {
+                if (i.GetIndexes().Equals(indexPath.GetIndexes()))
+                {
+                    SelectedIndexPaths.Remove(i);
+                    break;
+                }
+            }
+        }
     }
 }

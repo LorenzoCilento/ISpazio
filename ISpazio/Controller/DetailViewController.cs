@@ -16,8 +16,6 @@ namespace NewTestArKit
             get { return obj; }
             set { obj = value; }
         }
-
-
         public DetailViewController(IntPtr handle) : base(handle)
         {
         }

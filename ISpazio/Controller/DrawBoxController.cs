@@ -113,7 +113,6 @@ namespace NewTestArKit
             var h = (nfloat)Box.Height + border;
             var d = (nfloat)Box.Depth + border;
 
-            Console.WriteLine("box " + w + " - " + h + " - " + d);
             var boxGeometry = SCNBox.Create(d, h, w, 0);
             boxNode = SCNNode.FromGeometry(boxGeometry);
 
@@ -134,7 +133,6 @@ namespace NewTestArKit
                 var h = (nfloat)i.PackDimY;
                 var d = (nfloat)i.PackDimZ;
 
-                Console.WriteLine("item " + w + " - " + h + " - " + d);
                 var item = SCNBox.Create(w, h, d, 0);
                 var itemNode = SCNNode.FromGeometry(item);
                 if (RColor)
@@ -210,7 +208,6 @@ namespace NewTestArKit
             var offSetY = (float)(offSetBoxY + offSetItemY + i.CoordY);
             var offSetZ = (float)(offSetBoxZ + offSetItemZ + i.CoordZ);
 
-            Console.WriteLine("relative position: " + offSetBoxX + " - " + offSetBoxY + " - " + offSetBoxZ);
             return new SCNVector3(offSetX, offSetY, offSetZ);
         }
 

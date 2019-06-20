@@ -235,7 +235,7 @@ namespace NewTestArKit
         {
             var vc = new ChosePackingBoxController(list);
 
-            PresentViewController(vc, true, null);
+            NavigationController.PushViewController(vc, true);
         }
 
     }
