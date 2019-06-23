@@ -95,6 +95,8 @@ namespace NewTestArKit
 
         partial void addButtonPressed(UIButton sender)
         {
+            var tabBarItems = TabBarController.TabBar.Items;
+
             if (obj.allDistanceNotZero())
             {
                 switch (SegmentChoiceTypeObject.SelectedSegment)
@@ -104,6 +106,7 @@ namespace NewTestArKit
 
                         ItemDAO itemDAO = new ItemDAO();
                         itemDAO.insertItem(item);
+                        addBadgeTabBarItem(tabBarItems, 1);
 
                         break;
                     case 1:
@@ -111,6 +114,7 @@ namespace NewTestArKit
 
                         BoxDAO boxDAO = new BoxDAO();
                         boxDAO.insertBox(box);
+                        addBadgeTabBarItem(tabBarItems, 2);
                         break;
                     default:
                         break;
@@ -136,6 +140,21 @@ namespace NewTestArKit
 
             alertController.AddAction(UIAlertAction.Create("Ok", UIAlertActionStyle.Cancel, null));
             PresentViewController(alertController, true, null);
+        }
+
+        private void addBadgeTabBarItem(UITabBarItem[] items, int n)
+        {
+            var value = 0;
+            var item = items[n];
+
+            if (item.BadgeValue == null)
+                item.BadgeValue = "1";
+            else
+            {
+                value = int.Parse(item.BadgeValue);
+                value++;
+                item.BadgeValue = value.ToString();
+            }
         }
 
     }

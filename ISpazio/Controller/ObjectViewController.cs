@@ -30,8 +30,10 @@ namespace NewTestArKit
         private UIBarButtonItem insert;
         private UIBarButtonItem delete;
 
+
         public ObjectViewController(IntPtr handle) : base(handle)
         {
+
         }
 
         public override void ViewDidLoad()
@@ -50,6 +52,7 @@ namespace NewTestArKit
         {
             base.ViewWillAppear(animated);
             reloadData();
+            TabBarController.TabBar.SelectedItem.BadgeValue = null;
         }
 
         public void loadData()

@@ -54,6 +54,7 @@ namespace NewTestArKit
         {
             base.ViewWillAppear(animated);
             reloadData();
+            TabBarController.TabBar.SelectedItem.BadgeValue = null;
         }
 
         public void loadData()

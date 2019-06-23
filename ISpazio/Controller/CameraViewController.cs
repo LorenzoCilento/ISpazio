@@ -139,9 +139,9 @@ namespace NewTestArKit
             var midX = sceneView.Frame.GetMidX();
             var midY = sceneView.Frame.GetMidY();
 
-            var touchLocation = new CGPoint(midX, midY);
+            var screenCenterPoint = new CGPoint(midX, midY);
 
-            var result = sceneView.HitTest(touchLocation, ARHitTestResultType.ExistingPlaneUsingExtent);
+            var result = sceneView.HitTest(screenCenterPoint, ARHitTestResultType.ExistingPlaneUsingExtent);
 
             if (result.FirstOrDefault() != null)
             {
@@ -149,7 +149,9 @@ namespace NewTestArKit
                 addSphereNode(worldTransform(res.WorldTransform), UIColor.Red, sphereArray);
 
                 if (sphereArray.Count >= 1)
+                {
                     eraseButton.Hidden = false;
+                }
 
                 if (sphereArray.Count() >= 2)
                 {
