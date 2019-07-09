@@ -15,6 +15,10 @@ namespace NewTestArKit
     {
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UILabel accuracyLabel { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UISegmentedControl dimensionChoise { get; set; }
 
         [Outlet]
@@ -47,6 +51,10 @@ namespace NewTestArKit
 
         [Outlet]
         [GeneratedCode ("iOS Designer", "1.0")]
+        UIKit.UIProgressView progressAccuracy { get; set; }
+
+        [Outlet]
+        [GeneratedCode ("iOS Designer", "1.0")]
         UIKit.UIButton resetButton { get; set; }
 
         [Outlet]
@@ -71,6 +79,11 @@ namespace NewTestArKit
 
         void ReleaseDesignerOutlets ()
         {
+            if (accuracyLabel != null) {
+                accuracyLabel.Dispose ();
+                accuracyLabel = null;
+            }
+
             if (dimensionChoise != null) {
                 dimensionChoise.Dispose ();
                 dimensionChoise = null;
@@ -109,6 +122,11 @@ namespace NewTestArKit
             if (optionGesture != null) {
                 optionGesture.Dispose ();
                 optionGesture = null;
+            }
+
+            if (progressAccuracy != null) {
+                progressAccuracy.Dispose ();
+                progressAccuracy = null;
             }
 
             if (resetButton != null) {

@@ -8,6 +8,7 @@ using NewTestArKit.Packing.Algorithms;
 using NewTestArKit.Packing.Entities;
 using NewTestArKit.Packing;
 using System.Linq;
+using NewTestArKit.Utility;
 
 namespace NewTestArKit
 {
@@ -28,10 +29,9 @@ namespace NewTestArKit
         private UIBarButtonItem edit;
         private UIBarButtonItem done;
 
+
         public ChosePackingBoxController(List<Model.Item> list)
         {
-            boxDAO = new BoxDAO();
-            itemDAO = new ItemDAO();
             Item = list;
         }
 
@@ -42,6 +42,8 @@ namespace NewTestArKit
         public override void ViewDidLoad()
         {
             base.ViewDidLoad();
+            boxDAO = new BoxDAO();
+            itemDAO = new ItemDAO();
             SelectedBoxes = new List<int>();
             setupEditDoneButton();
             TableView.AllowsMultipleSelectionDuringEditing = true;
@@ -324,7 +326,7 @@ namespace NewTestArKit
         private void setupEditDoneButton()
         {
 
-            edit = new UIBarButtonItem("Modifica", UIBarButtonItemStyle.Plain, (s, e) =>
+            edit = new UIBarButtonItem("Seleziona più", UIBarButtonItemStyle.Plain, (s, e) =>
             {
                 if (TableView.Editing)
                     TableView.SetEditing(false, true); // if we've half-swiped a row
@@ -344,7 +346,7 @@ namespace NewTestArKit
                 NavigationItem.LeftBarButtonItem = null;
             });
 
-            insert = new UIBarButtonItem("Inserisci in", UIBarButtonItemStyle.Plain, (sender, e) =>
+            insert = new UIBarButtonItem("Pack", UIBarButtonItemStyle.Plain, (sender, e) =>
             {
                 var list = SelectedBoxes;
 

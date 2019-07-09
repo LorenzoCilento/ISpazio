@@ -141,7 +141,7 @@ namespace NewTestArKit
         private void setupEditDoneButton()
         {
 
-            edit = new UIBarButtonItem("Modifica", UIBarButtonItemStyle.Plain, (s, e) =>
+            edit = new UIBarButtonItem("Seleziona", UIBarButtonItemStyle.Plain, (s, e) =>
               {
                   if (TableView.Editing)
                       TableView.SetEditing(false, true); // if we've half-swiped a row
@@ -182,6 +182,7 @@ namespace NewTestArKit
 
             delete = new UIBarButtonItem("Elimina", UIBarButtonItemStyle.Plain, (sender, e) =>
              {
+                 var list = objectViewDelegate.SelectedItems;
                  TableView.SetEditing(false, true);
                  NavigationItem.RightBarButtonItem = null;
                  NavigationItem.RightBarButtonItem = edit;

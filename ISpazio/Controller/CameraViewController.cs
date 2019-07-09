@@ -84,6 +84,7 @@ namespace NewTestArKit
         {
             reset();
             setupConfigurationAndStartSession();
+            checkAccuracy();
             //startPresentationPanel();
         }
 
@@ -171,8 +172,8 @@ namespace NewTestArKit
             {
                 distanceList.Add(distance);
                 countMeasure++;
-                Console.WriteLine(AccuracyValue + " - " + countMeasure);
                 reset();
+                updateProgressAccuracy();
                 if (countMeasure == AccuracyValue)
                 {
                     addDistance(Media2(distanceList));
@@ -422,7 +423,10 @@ namespace NewTestArKit
 
         partial void dimensionChoiseValueChangedPressed(UISegmentedControl sender)
         {
-            //reset();
+            reset();
+            countMeasure = 0;
+            if (isActiveMeasyreAccuracy)
+                updateProgressAccuracy();
         }
 
         [Action("UnwindToCameraViewController:")]
@@ -539,6 +543,26 @@ namespace NewTestArKit
             initMessageView();
             messageLabel.Text = message;
             endMessageView(timeDelay);
+        }
+
+
+        private void checkAccuracy()
+        {
+            if (isActiveMeasyreAccuracy)
+            {
+                progressAccuracy.Hidden = false;
+                accuracyLabel.Hidden = false;
+                updateProgressAccuracy();
+            }
+        }
+
+        private void updateProgressAccuracy()
+        {
+            Console.WriteLine(AccuracyValue + " - " + countMeasure);
+            var v = (float)countMeasure / AccuracyValue;
+            Console.WriteLine("value " + v);
+            progressAccuracy.SetProgress(v, true);
+            accuracyLabel.Text = countMeasure.ToString() + "/" + AccuracyValue.ToString();
         }
 
     }
